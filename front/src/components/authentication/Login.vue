@@ -19,7 +19,7 @@
                             placeholder="Password"
                         >
                     </div>
-                    <button class="btn btn-success pull-right">
+                    <button @click="test" class="btn btn-success pull-right">
                         Login
                     </button>
                 </div>
@@ -36,7 +36,16 @@
                 email: '',
                 password: ''
             }
-        }
+        },
+
+        methods: {
+            test () {
+                this.$http.get("http://localhost:8000/api/test")
+                    .then(function (response) {
+                        console.log(response)
+                    })      
+            }
+        },
     }
 </script>
 
