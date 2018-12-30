@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                    <!-- <a href="{{ route('') }}" class="btn btn-link">Pengajuan Dana</a> -->
                 </div>
             </div>
         </div>
