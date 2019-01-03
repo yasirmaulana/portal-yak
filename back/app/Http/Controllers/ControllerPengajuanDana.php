@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PengajuanDana;
 use Illuminate\Http\Request;
 
 class ControllerPengajuanDana extends Controller
@@ -26,7 +27,7 @@ class ControllerPengajuanDana extends Controller
         $no = 'AK301218';
         return view('pengajuandana/create', compact('no'));
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -35,8 +36,18 @@ class ControllerPengajuanDana extends Controller
      */
     public function store(Request $request)
     {
+        $post = new PengajuanDana;
 
-        return dd($request->all());
+        $post->pembayaran = $request->pembayaran;
+        $post->nomor_rekening = $request->nomor_rekening;
+        $post->bank = $request->bank;
+        $post->atas_nama = $request->atas_nama;
+        $post->email = $request->email;
+        $post->nomor = $request->nomor;
+
+        $post->save();
+
+        return $post;
     }
 
     /**

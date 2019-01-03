@@ -14,3 +14,8 @@ Route::get('/user', function () {
 
 Route::resource('pengajuandana', 'ControllerPengajuanDana');
 
+Route::get('/form', 'ControllerTest@form');
+Route::post('/add', 'ControllerTest@addCart');
+Route::post('/remove', function () {
+    Cart::remove();
+});
