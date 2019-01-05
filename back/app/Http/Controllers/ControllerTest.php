@@ -29,14 +29,10 @@ class ControllerTest extends Controller
         }
     }
 
-    public function removeCart($id) {
-        $remove = Cart::remove(1);
+    public function removeCart() {
+        $details = Cart::getContent()->where();
 
-        if($remove) {
-            $data = Cart::getContent();
-
-            return view('form', ['data' => $data]);
-        }
+        return view('tes', ['details' => $details]);
     }
 
 

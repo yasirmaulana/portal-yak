@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use Illuminate\Http\Request;
 
-class ControllerPengajuanDana extends Controller
+class ControllerPengajuanDanaDetail extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() 
+    public function index()
     {
-        return view('pengajuandana/index');
+        //
     }
 
     /**
@@ -25,12 +24,9 @@ class ControllerPengajuanDana extends Controller
      */
     public function create()
     {
-        $no = 'AK301218';
-        $details = PengajuanDanaDetail::where('nomor', $no);
-
-        return view('pengajuandana/create', compact('no'), compact('details'));
+        //
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -39,20 +35,18 @@ class ControllerPengajuanDana extends Controller
      */
     public function store(Request $request)
     {
-        $post = new PengajuanDana;
+        $post = new PengajuanDanaDetail;
 
-        $post->pembayaran = $request->pembayaran;
-        $post->nomor_rekening = $request->nomor_rekening;
-        $post->bank = $request->bank;
-        $post->atas_nama = $request->atas_nama;
-        $post->email = $request->email;
         $post->nomor = $request->nomor;
+        $post->user_id = $request->user_id;
+        $post->item = $request->item;
+        $post->satuan = $request->satuan;
+        $post->harga = $request->harga;
 
         $post->save();
 
-        return 'input berhasil';
-        // $no = 'AK301218';
-        // return view('pengajuandana/create', compact('no'));
+        return $post;
+
     }
 
     /**
