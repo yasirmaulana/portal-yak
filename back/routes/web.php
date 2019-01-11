@@ -6,23 +6,19 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/user', function () {
-    return Auth::user();
-});
-
-
-Route::resource('pengajuan', 'ControllerPengajuanDana');
+Route::resource('pengajuan', 'ControllerPengajuanDana')->middleware(['auth', 'role']);
 Route::resource('pengajuandetail', 'ControllerPengajuanDanaDetail');
+
+// Route::get('/user', function () {
+//     return Auth::user();
+// });
 
 // Route::get('/form', 'ControllerTest@form');
 // Route::post('/add', 'ControllerTest@addCart');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/admin', function () {
+//     return 'ini halaman admin';
+// })->middleware(['role', 'auth']);

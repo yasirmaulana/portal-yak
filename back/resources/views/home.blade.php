@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <a href="{{route('pengajuan.index')}}">Pengajuan Dana</a>
                 </div>
             </div>
         </div>

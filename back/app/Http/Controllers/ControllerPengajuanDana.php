@@ -15,7 +15,9 @@ class ControllerPengajuanDana extends Controller
      */
     public function index() 
     {
-        return view('pengajuandana/index');
+        $data = PengajuanDana::all();
+
+        return view('pengajuandana/front', compact('data'));
     }
 
     /**

@@ -26,21 +26,21 @@
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label text-md-right">NIK :</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" value="13034543"  disabled style="border: 0;background: none;">
+                        <input type="text" class="form-control" value="{{Auth::user()->nik}}"  disabled style="border: 0;background: none;">
                     </div>
                     <label class="col-md-1 col-form-label text-md-right">Nama :</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" value="Yasir"  disabled style="border: 0;background: none;">
+                        <input type="text" class="form-control" value="{{Auth::user()->name}}"  disabled style="border: 0;background: none;">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label text-md-right">Divisi :</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" value="IT"  disabled style="border: 0;background: none;">
+                        <input type="text" class="form-control" value="{{Auth::user()->divisi}}"  disabled style="border: 0;background: none;">
                     </div>
                     <label class="col-md-1 col-form-label text-md-right">Jabatan :</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" value="Staf"  disabled style="border: 0;background: none;">
+                        <input type="text" class="form-control" value="{{Auth::user()->jabatan}}"  disabled style="border: 0;background: none;">
                     </div>
                 </div>
                 <div class="form-group row">
