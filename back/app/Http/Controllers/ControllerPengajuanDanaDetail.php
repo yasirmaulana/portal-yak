@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\PengajuanDanaDetail;
 use Illuminate\Http\Request;
 
@@ -43,9 +44,12 @@ class ControllerPengajuanDanaDetail extends Controller
         $post->satuan = $request->satuan;
         $post->harga = $request->harga;
 
-        $post->save();
+        // $post->save();
 
-        return $post;
+        $no = $request->nomor;
+        $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
+        // return $details;
+        return view('pengajuandana/create', compact('no', 'details'));
 
     }
 

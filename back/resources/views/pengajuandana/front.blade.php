@@ -57,12 +57,13 @@
                         <td>{{$detail->nomor_rekening}}</td>
                         <td>{{$detail->atas_nama}}</td>
                         <td>{{$detail->email}}</td>
-                        <td>{{$detail->created_at}}</td>
-                        <td>{{$detail->created_at}}</td>
+                        <td>{{$detail->progres}}</td>
+                        <td>{{$detail->statusdisetujui}}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+            <!-- {{$detail}} -->
         </div>
     
         <div id="menu1" class="container tab-pane fade"><br>
