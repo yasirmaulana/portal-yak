@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PengajuanDana;
+use Auth;
 
 class ControllerPersetujuanPengajuanDana extends Controller
 {
@@ -14,7 +15,10 @@ class ControllerPersetujuanPengajuanDana extends Controller
      */
     public function index()
     {
-        $data = PengajuanDana::all();
+        $data = PengajuanDana::where('progres', 'manager')
+                             ->where('statusdisetujui', 'w')
+                             ->where('divisi', Auth::user()->divisi)
+                             ->get();
         return view('pengajuandana/listpengajuan', ['data' => $data]);
     }
 

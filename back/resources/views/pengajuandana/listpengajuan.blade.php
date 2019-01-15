@@ -37,15 +37,19 @@
                         <th>No Rekening</th>
                         <th>Atas Nama</th>
                         <th>Email</th>
-                        <th>Proses</th>
-                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($data as $detail)
                     <tr>
                         <td>{{$detail->created_at}}</td>
-                        <td>{{$detail->nomor}}</td>
+                        <td>
+                            <a href="">
+                                {{$detail->nomor}}
+                            </a>
+                        </td>
                         <td>
                             @if($detail->pembayaran == 't')
                                 Transfer
@@ -56,8 +60,11 @@
                         <td>{{$detail->nomor_rekening}}</td>
                         <td>{{$detail->atas_nama}}</td>
                         <td>{{$detail->email}}</td>
-                        <td>{{$detail->progres}}</td>
-                        <td>{{$detail->statusdisetujui}}</td>
+                        <td>Rp. 1.000.000</td>
+                        <td>
+                            <button class="btn btn-primary">Approve</button>
+                            <button class="btn btn-danger">Reject</button>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
