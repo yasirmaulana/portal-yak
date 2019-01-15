@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use App\PengajuanDanaDetail;
 use Illuminate\Http\Request;
+use App\PengajuanDana;
 
-class ControllerPengajuanDanaDetail extends Controller
+class ControllerPersetujuanPengajuanDana extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,8 @@ class ControllerPengajuanDanaDetail extends Controller
      */
     public function index()
     {
-        //
+        $data = PengajuanDana::where();
+        return view('pengajuandana/listpengajuan', ['data' => $data]);
     }
 
     /**
@@ -36,21 +36,7 @@ class ControllerPengajuanDanaDetail extends Controller
      */
     public function store(Request $request)
     {
-        $post = new PengajuanDanaDetail;
-
-        $post->nomor = $request->nomor;
-        $post->user_id = $request->user_id;
-        $post->item = $request->item;
-        $post->satuan = $request->satuan;
-        $post->harga = $request->harga;
-
-        // $post->save();
-
-        $no = $request->nomor;
-        $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
-        // return $details;
-        return view('pengajuandana/create', compact('no', 'details'));
-
+        //
     }
 
     /**
@@ -93,12 +79,8 @@ class ControllerPengajuanDanaDetail extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $nomor)
+    public function destroy($id)
     {
-        PengajuanDanaDetail::destroy($id);
-
-        $details = PengajuanDanaDetail::where('nomor', $nomor)->get();
-
-        return redirect()->route('pengajuan.create', ['details' => $details]);
+        //
     }
 }

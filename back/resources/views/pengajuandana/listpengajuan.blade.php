@@ -28,7 +28,6 @@
 
     <div class="tab-content">
         <div id="home" class="container tab-pane active"><br>
-            <a href="{{ route('pengajuan.create') }}">+ Ajukan Dana</a>
             <table class="table table-striped">
                 <thead>
                     <tr>

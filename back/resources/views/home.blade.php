@@ -8,13 +8,17 @@
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                    @if(empty($user->role))
+                        <h5>Assalamu'alaikum {{$user->name}},</h5>
+                        <h5>Saat ini anda belum memiliki akses apapun.</h5>
+                        <h5>mohon menghubungi Admin!!!</h5>
+                    @else
+                        @foreach($menu as $pilih)
+                        
+                        <a href="{{route($pilih->route)}}">{{$pilih->name}}</a>
 
-                    <a href="{{route('pengajuan.index')}}">Pengajuan Dana</a>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>

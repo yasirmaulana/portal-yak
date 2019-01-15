@@ -2,14 +2,9 @@
 
 @section('content')
 <div class="container shadow p-4 mb-4 bg-white" style="background:white; padding:10px">
-
     <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#home">Pengajuan</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#menu1">Detail Pengajuan</a>
-        </li>
+        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home">Pengajuan</a></li>
+        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu1">Detail Pengajuan</a></li>
     </ul>
 
     <div class="tab-content">
@@ -144,7 +139,11 @@
                         <td>{{ number_format($detail->harga) }}</td>
                         <td>{{ number_format($detail->satuan * $detail->harga) }}</td>
                         <td>
-                            <a href="">Hapus</a>
+                        <form action="{{ route('pengajuandetail.destroy'/[$detail->id]/[$detail->nomor]) }}" method="post">
+                            @csrf
+                            <!-- @method('DELETE') -->
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>
                         </td>
                     </tr>
                     @endforeach

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use App\Menu;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+        $role = Auth::user()->role;
+        $menu = Menu::where('role', $role)->get();
+        return view('home', ['user' => $user], ['menu' => $menu]);
     }
 }

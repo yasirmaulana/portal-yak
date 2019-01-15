@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Sequence;
+use App\Tab;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use Auth;
@@ -21,11 +22,9 @@ class ControllerPengajuanDana extends Controller
     {
         $user = Auth::user()->id;
         $data = PengajuanDana::where('user_id', $user)->get();
-
-        // return $data;
         return view('pengajuandana/front', compact('data'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -46,8 +45,9 @@ class ControllerPengajuanDana extends Controller
         }
         
         $details = PengajuanDanaDetail::where('nomor', $no);
+        $tabName = Tab::where('id',2)->get();
 
-        return view('pengajuandana/create', compact('no', 'details'));
+        return view('pengajuandana/create', compact('no', 'details', 'tabName'));
     }
     
     /**
