@@ -14,7 +14,7 @@ class ControllerPersetujuanPengajuanDana extends Controller
      */
     public function index()
     {
-        $data = PengajuanDana::where();
+        $data = PengajuanDana::all();
         return view('pengajuandana/listpengajuan', ['data' => $data]);
     }
 
