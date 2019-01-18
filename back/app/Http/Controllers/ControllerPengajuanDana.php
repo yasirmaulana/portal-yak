@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Sequence;
 use App\Tab;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use Auth;
-use Alert;
-use Softon\SweetAlert\Facades\SWAL;
-use Illuminate\Http\Request;
 
 class ControllerPengajuanDana extends Controller
 {
@@ -44,10 +42,12 @@ class ControllerPengajuanDana extends Controller
             $no = $seq . '/' . $datenow;
         }
         
-        $details = PengajuanDanaDetail::where('nomor', $no);
+        // $details = PengajuanDanaDetail::where('nomor', $no);
         $tabName = Tab::where('id',2)->get();
+        // $no = $request->nomor;
+        $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
 
-        return view('pengajuandana/create', compact('no', 'details', 'tabName'));
+        return view('pengajuandana/create', compact('no', 'details', 'tabName'))->with('status', '');
     }
     
     /**
@@ -71,9 +71,10 @@ class ControllerPengajuanDana extends Controller
             $post->atas_nama = $request->atas_nama;
             $post->email = $request->email;
             $post->nomor = $request->nomor;
-            $post->progres = $request->progres;
-            $post->statusdisetujui = $request->statusdisetujui;
-            $post->statusopen = $request->statusopen;
+            $post->progres = 'manager';
+            $post->statusdisetujui = 'w';
+            $post->statusopen = 'o';
+            $post->divisi = Auth::user()->divisi;
             $post->save();
     
             // UPDATE SEUEN
@@ -95,7 +96,22 @@ class ControllerPengajuanDana extends Controller
     
             return view('pengajuandana/front', compact('data'));
         } else {
-            return 'masih kosong, masa disave';
+            $seq = Sequence::find(1)->no;
+            $updateDate = date_format(Sequence::find(1)->updated_at, 'm/Y');
+            $datenow = date_format(now(), 'm/Y');
+            
+            if ($datenow == $updateDate) {
+                $seq = $seq + 1;
+                $no = $seq . '/' . $updateDate;
+            } else {
+                $seq = 1;
+                $no = $seq . '/' . $datenow;
+            }
+            
+            $details = PengajuanDanaDetail::where('nomor', $no);
+            $tabName = Tab::where('id',2)->get();
+
+            return view('pengajuandana/create', compact('no', 'details', 'tabName'))->with('status', 'Input detail pengajuan terlebih dahulu!!!');
         };
 
     }

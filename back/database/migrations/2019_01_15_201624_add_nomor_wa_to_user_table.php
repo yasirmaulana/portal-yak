@@ -14,7 +14,7 @@ class AddNomorWaToUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('nomor_wa');
+            $table->string('nomor_wa')->nullable();
         });
     }
 

@@ -17,9 +17,9 @@ class CreatePengajuandanadetail extends Migration
             $table->increments('id');
             $table->string('nomor')->nullable();
             $table->string('user_id')->nullable();
-            $table->string('item');
-            $table->integer('satuan');
-            $table->integer('harga');
+            $table->string('item')->nullable();
+            $table->integer('satuan')->nullable();
+            $table->integer('harga')->nullable();
             $table->timestamps();
         });
     }

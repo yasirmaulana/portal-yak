@@ -36,21 +36,30 @@ class ControllerPengajuanDanaDetail extends Controller
      */
     public function store(Request $request)
     {
-        $post = new PengajuanDanaDetail;
+        
+        // if($request->item !== '' or $request->satuan !== '' or $request->harga !== ''){
+            if (!($request->item == NULL or $request->satuan == NULL or $request->harga == NULL)) {
+                
+                $post = new PengajuanDanaDetail;
+                
+                $post->nomor = $request->nomor;
+                $post->user_id = $request->user_id;
+                $post->item = $request->item;
+                $post->satuan = $request->satuan;
+                $post->harga = $request->harga;
+                
+                $post->save();
+                
+                $no = $request->nomor;
+                $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
+            return view('pengajuandana/create', compact('no', 'details'))->with('status', 'pengajuan detail berhasil ditambahkan');
+        } else {
+            $no = $request->nomor;
+            $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
 
-        $post->nomor = $request->nomor;
-        $post->user_id = $request->user_id;
-        $post->item = $request->item;
-        $post->satuan = $request->satuan;
-        $post->harga = $request->harga;
-
-        // $post->save();
-
-        $no = $request->nomor;
-        $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
-        // return $details;
-        return view('pengajuandana/create', compact('no', 'details'));
-
+            return view('pengajuandana/create', compact('no', 'details'))->with('status', 'semua field wajib diisi');
+        }
+            
     }
 
     /**

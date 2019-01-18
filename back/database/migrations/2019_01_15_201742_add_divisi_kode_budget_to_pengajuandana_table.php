@@ -14,8 +14,8 @@ class AddDivisiKodeBudgetToPengajuandanaTable extends Migration
     public function up()
     {
         Schema::table('pengajuandana', function (Blueprint $table) {
-            $table->string('divisi');
-            $table->string('kode_budget');
+            $table->string('divisi')->nullable();
+            $table->string('kode_budget')->nullable();
         });
     }
 

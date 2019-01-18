@@ -16,13 +16,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('pengajuan', 'ControllerPengajuanDana')->middleware(['auth', 'rolestandar']);
 Route::resource('pengajuandetail', 'ControllerPengajuanDanaDetail')->middleware(['auth', 'rolestandar']);
-Route::resource('persetujuanpengajuandana', 'ControllerPersetujuanPengajuanDana');
+Route::resource('persetujuanpengajuandana', 'ControllerPersetujuanPengajuanDana')->middleware(['auth', 'rolemanager']);
 
 Route::get('/addmenu', function () {
-    $post = new Menu;
-    $post->name = 'Persetujuan Pengajuan Dana';
-    $post->role = 'manager';
-    $post->route = 'persetujuanpengajuandana.index';
+    $post = new Sequence;
+    $post->no = 0;
+    // $post->name = 'Pengajuan Dana';
+    // $post->role = 'standar';
+    // $post->route = 'pengajuan.index';
     $post->save();
     return $post;
 });
