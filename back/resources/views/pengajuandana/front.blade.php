@@ -1,7 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
-<div class="container shadow p-4 mb-4 bg-white" style="background:white; padding:10px">
+<div class="container shadow p-4 mb-4 bg-white">
     <!-- <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -39,14 +38,18 @@
                         <th>Atas Nama</th>
                         <th>Email</th>
                         <th>Proses</th>
-                        <th>Status</th>
+                        <!-- <th>Status</th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $detail)
+                    @foreach($pengajuandana as $detail) 
                     <tr>
                         <td>{{$detail->created_at}}</td>
-                        <td>{{$detail->nomor}}</td>
+                        <td>
+                            <a href="{{route('pengajuandetail.edit', $detail->id)}}">
+                                {{$detail->nomor}}
+                            </a>
+                        </td>
                         <td>
                             @if($detail->pembayaran == 't')
                                 Transfer
@@ -58,7 +61,7 @@
                         <td>{{$detail->atas_nama}}</td>
                         <td>{{$detail->email}}</td>
                         <td>{{$detail->progres}}</td>
-                        <td>{{$detail->statusdisetujui}}</td>
+                        <!-- <td>{{$detail->statusdisetujui}}</td> -->
                     </tr>
                     @endforeach
                 </tbody>

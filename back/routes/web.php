@@ -4,6 +4,7 @@ use App\Sequence;
 use App\Tab;
 use App\Menu;
 use App\PengajuanDana;
+use App\PengajuanDanaDetail;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,15 +34,9 @@ Route::get('/getsekuen', function () {
     return $data;
 });
 
-Route::delete('/deletepengajuandetail/{id}/{nomor}', 'ControllerPengajuanDetail@destroy')->name('pengajuandetail.destroy');
+Route::get('/deleteDetail', function(){
+    $post = PengajuanDanaDetail::where('nomor', 'IT/6/01/2019');
+    $post->delete();
 
-// Route::get('/user', function () {
-//     return Auth::user();
-// });
-
-// Route::get('/form', 'ControllerTest@form');
-// Route::post('/add', 'ControllerTest@addCart');
-
-// Route::get('/admin', function () {
-//     return 'ini halaman admin';
-// })->middleware(['role', 'auth']);
+    return 'hahahahah';
+});

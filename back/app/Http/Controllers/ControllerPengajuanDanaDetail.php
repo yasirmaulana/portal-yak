@@ -52,12 +52,12 @@ class ControllerPengajuanDanaDetail extends Controller
                 
                 $no = $request->nomor;
                 $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
-            return view('pengajuandana/create', compact('no', 'details'))->with('status', 'pengajuan detail berhasil ditambahkan');
+            return view('pengajuandana.create', compact('no', 'details'))->with('status', 'pengajuan detail berhasil ditambahkan');
         } else {
             $no = $request->nomor;
             $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
 
-            return view('pengajuandana/create', compact('no', 'details'))->with('status', 'semua field wajib diisi');
+            return view('pengajuandana.create', compact('no', 'details'))->with('status', 'semua field wajib diisi');
         }
             
     }
@@ -81,7 +81,9 @@ class ControllerPengajuanDanaDetail extends Controller
      */
     public function edit($id)
     {
-        //
+        $nomor = PengajuanDanaDetail::select('nomor')->where('id', $id)->get();
+        $details = PengajuanDanaDetail::where('nomor', $nomor)->get();
+        return view('pengajuandana.edit', compact('details'));
     }
 
     /**
@@ -102,12 +104,12 @@ class ControllerPengajuanDanaDetail extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $nomor)
+    public function destroy($id)
     {
-        PengajuanDanaDetail::destroy($id);
+        $detail = PengajuanDanaDetail::find($id);
+        $detail->delete();
 
-        $details = PengajuanDanaDetail::where('nomor', $nomor)->get();
-
-        return redirect()->route('pengajuan.create', ['details' => $details]);
+        return redirect()->route('pengajuan.create');
     }
+
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Sequence;
-use App\Tab;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use Auth;
@@ -14,13 +13,17 @@ class ControllerPengajuanDana extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response 
      */
     public function index() 
     {
         $user = Auth::user()->id;
-        $data = PengajuanDana::where('user_id', $user)->get();
-        return view('pengajuandana/front', compact('data'));
+        $pengajuandana = PengajuanDana::where('user_id', $user)->get();
+        return view('pengajuandana.front', compact('pengajuandana'));
+        
+        // $pengajuandana = PengajuanDana::latest()->paginate(5);
+        // return view('pengajuandana.front', compact('pengajuandana'))
+        //         ->with('i', (request()->input('page',1) -1)*5);
     }
     
     /**
@@ -28,26 +31,28 @@ class ControllerPengajuanDana extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function createNumber(){
         $seq = Sequence::find(1)->no;
-        $updateDate = date_format(Sequence::find(1)->updated_at, 'm/Y');
-        $datenow = date_format(now(), 'm/Y');
+        $updateDate = date_format(Sequence::find(1)->updated_at, 'y');
+        $datenow = date_format(now(), 'y');
         
         if ($datenow == $updateDate) {
             $seq = $seq + 1;
-            $no = $seq . '/' . $updateDate;
+            $no = Auth::user()->divisi . date_format(now(), 'ym') . $seq;
         } else {
             $seq = 1;
-            $no = $seq . '/' . $datenow;
+            $no =  Auth::user()->divisi . date_format(now(), 'ym') . $seq;
         }
-        
-        // $details = PengajuanDanaDetail::where('nomor', $no);
-        $tabName = Tab::where('id',2)->get();
-        // $no = $request->nomor;
+
+        return $no;
+    }
+
+    public function create()
+    {
+        $no = $this->createNumber();
         $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
 
-        return view('pengajuandana/create', compact('no', 'details', 'tabName'))->with('status', '');
+        return view('pengajuandana.create', compact('no', 'details'))->with('status', '');
     }
     
     /**
@@ -59,8 +64,27 @@ class ControllerPengajuanDana extends Controller
     public function store(Request $request)
     {
         $no = $request->nomor;
+        $pembayaran = $request->pembayaran;
         $details = PengajuanDanaDetail::where('nomor', $no)->get();
         
+        // CEK INPUTAN PEMBAYARAN
+        if  (empty($pembayaran)) {
+            $no = $this->createNumber();
+            $details = PengajuanDanaDetail::where('nomor', $no);
+
+            return view('pengajuandana.create', compact('no', 'details'))->with('status', 'Input Pembayaran harus diisi!!!');
+            // return redirect()->back()->with('status', 'Input Pembayaran harus diisi!!!');
+        }
+
+        if ($pembayaran == 't') {
+            if (empty($request->nomor_rekening) or empty($request->bank) or empty($request->atas_nama) or empty($request->email)) {
+                $no = $this->createNumber();
+                $details = PengajuanDanaDetail::where('nomor', $no);
+    
+                return view('pengajuandana.create', compact('no', 'details'))->with('status', 'Nomor rekening, nama bank, a/n dan email tidak boleh kosong!!!');
+            }
+        }
+
         // CEK PENGAJUAN DETAIL
         if (count($details)>0) {
             $post = new PengajuanDana;
@@ -92,26 +116,15 @@ class ControllerPengajuanDana extends Controller
             
             // GOT TO FRONT
             $user = Auth::user()->id;
-            $data = PengajuanDana::where('user_id', $user)->get();
+            $pengajuandana = PengajuanDana::where('user_id', $user)->get();
     
-            return view('pengajuandana/front', compact('data'));
+            return view('pengajuandana.front', compact('pengajuandana'));
         } else {
-            $seq = Sequence::find(1)->no;
-            $updateDate = date_format(Sequence::find(1)->updated_at, 'm/Y');
-            $datenow = date_format(now(), 'm/Y');
-            
-            if ($datenow == $updateDate) {
-                $seq = $seq + 1;
-                $no = $seq . '/' . $updateDate;
-            } else {
-                $seq = 1;
-                $no = $seq . '/' . $datenow;
-            }
-            
-            $details = PengajuanDanaDetail::where('nomor', $no);
-            $tabName = Tab::where('id',2)->get();
 
-            return view('pengajuandana/create', compact('no', 'details', 'tabName'))->with('status', 'Input detail pengajuan terlebih dahulu!!!');
+            $no = $this->createNumber();
+            $details = PengajuanDanaDetail::where('nomor', $no);
+
+            return view('pengajuandana.create', compact('no', 'details'))->with('status', 'Input detail pengajuan terlebih dahulu!!!');
         };
 
     }
@@ -156,8 +169,24 @@ class ControllerPengajuanDana extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function deleteDetail(){
+        $post = PengajuanDanaDetail::where('nomor', 'IT/6/01/2019');
+        $post->delete();
+
+        return 'hahahahah';
+    }
+
     public function destroy($id)
     {
-        //
+        // $no = $this->createNumber();
+        // PengajuanDanaDetail::forceDelete()
+        //     ->where('nomor', $id)
+        //     ->get();
+        
+        // $user = Auth::user()->id;
+        // $data = PengajuanDana::where('user_id', $user)->get();
+
+        // return view('pengajuandana/front', compact('data'));
+        return 'hahahahaha';
     }
 }
