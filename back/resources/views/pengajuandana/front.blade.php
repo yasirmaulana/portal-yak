@@ -46,7 +46,7 @@
                     <tr>
                         <td>{{$detail->created_at}}</td>
                         <td>
-                            <a href="{{route('pengajuandetail.edit', $detail->id)}}">
+                            <a href="{{route('pengajuandetail.edit', $detail->nomor)}}">
                                 {{$detail->nomor}}
                             </a>
                         </td>

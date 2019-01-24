@@ -5,37 +5,11 @@
     <!-- FORMULIR PENGAJUAN DANA -->
     <div id="home" class="container tab-pane active"><br>
         <h1>DATA PENGAJUAN DANA</h1>
-        
-            <div class="form-group row"> 
-                <label class="col-md-3 col-form-label text-md-right">Nomor :</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" name="no" value="" disabled style="border: 0;background: none;">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3 col-form-label text-md-right">NIK :</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" value=""  disabled style="border: 0;background: none;">
-                </div>
-                <label class="col-md-1 col-form-label text-md-right">Nama :</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" value=""  disabled style="border: 0;background: none;">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3 col-form-label text-md-right">Divisi :</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" value=""  disabled style="border: 0;background: none;">
-                </div>
-                <label class="col-md-1 col-form-label text-md-right">Jabatan :</label>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" value=""  disabled style="border: 0;background: none;">
-                </div>
-            </div>
+{{$pengajuan[0]}}        
             <div class="form-group row">
                 <label class="col-md-3 col-form-label text-md-right">Pembayaran :</label>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" value=""  disabled style="border: 0;background: none;">
+                    <input type="text" class="form-control" value="{{$pengajuan[0]->pembayaran}}"  disabled style="border: 0;background: none;">
                 </div>
             </div>
             <div class="form-group row">
@@ -77,7 +51,7 @@
                         <div class="modal-body">
                             <form action="{{route('pengajuandetail.store')}}" method="post">
                                 @csrf
-                                <input type="text" class="form-control" name="nomor" placeholder="nomor" value="" style="border: 0;background: none;">
+                                <input type="text" class="form-control" name="nomor" value="{{$pengajuan[0]->nomor}}" style="border: 0;background: none;">
                                 <input type="hidden" class="form-control" name="user_id" placeholder="user_id" value="{{Auth::user()->id}}">
                                 <input type="text" class="form-control" name="item" placeholder="item">
                                 <input type="number" class="form-control" name="satuan" placeholder="satuan (tulis tanpa titik)">

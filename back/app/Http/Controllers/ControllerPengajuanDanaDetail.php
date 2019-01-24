@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use Illuminate\Http\Request;
 
@@ -38,20 +39,21 @@ class ControllerPengajuanDanaDetail extends Controller
     {
         
         // if($request->item !== '' or $request->satuan !== '' or $request->harga !== ''){
-            if (!($request->item == NULL or $request->satuan == NULL or $request->harga == NULL)) {
-                
-                $post = new PengajuanDanaDetail;
-                
-                $post->nomor = $request->nomor;
-                $post->user_id = $request->user_id;
-                $post->item = $request->item;
-                $post->satuan = $request->satuan;
-                $post->harga = $request->harga;
-                
-                $post->save();
-                
-                $no = $request->nomor;
-                $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
+        if (!($request->item == NULL or $request->satuan == NULL or $request->harga == NULL)) {
+            
+            $post = new PengajuanDanaDetail;
+            
+            $post->nomor = $request->nomor;
+            $post->user_id = $request->user_id;
+            $post->item = $request->item;
+            $post->satuan = $request->satuan;
+            $post->harga = $request->harga;
+            
+            $post->save();
+            
+            $no = $request->nomor;
+            $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
+            
             return view('pengajuandana.create', compact('no', 'details'))->with('status', 'pengajuan detail berhasil ditambahkan');
         } else {
             $no = $request->nomor;
@@ -79,11 +81,11 @@ class ControllerPengajuanDanaDetail extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nomor)
     {
-        $nomor = PengajuanDanaDetail::select('nomor')->where('id', $id)->get();
+        $pengajuan = PengajuanDana::where('nomor', $nomor)->get();
         $details = PengajuanDanaDetail::where('nomor', $nomor)->get();
-        return view('pengajuandana.edit', compact('details'));
+        return view('pengajuandana.edit', compact('pengajuan', 'details'));
     }
 
     /**
