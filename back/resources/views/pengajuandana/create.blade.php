@@ -84,21 +84,22 @@
             </div>
             <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
             <input type="hidden" name="progres" value="manager">
-            <input type="hidden" name="statusdisetujui" value="w">
+            <input type="hidden" name="statusdisetujui" value=1>
             <input type="hidden" name="statusopen" value="y">
             <div class="form-group row">
                 <label class="col-md-3 col-form-label text-md-right"></label>
                 <div class="col-md-7">
                     <button class="btn btn-primary">Ajukan</button>
+                    <a href="{{route('pengajuan.index')}}" class="btn btn-warning">Batal</a>
                 </div>
             </div>
         </form>
-                    <form action="{{route('pengajuandetail.destroy', $no)}}" method="post">
+                    <!-- <form action="{{route('pengajuandetail.destroy', $no)}}" method="post">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-warning">Batal-</button>    
                     </form>
-                    <a href="{{route('pengajuandetail.destroy', $no)}}" class="btn btn-warning">Batal</a>
+                    <a href="{{route('pengajuandetail.destroy', $no)}}" class="btn btn-warning">Batal</a> -->
     </div>
     
     <!-- FORMULIR PENGAJUAN DANA DETAIL -->

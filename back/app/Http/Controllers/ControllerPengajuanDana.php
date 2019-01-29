@@ -69,7 +69,7 @@ class ControllerPengajuanDana extends Controller
         
         // CEK INPUTAN PEMBAYARAN
         if  (empty($pembayaran)) {
-            $no = $this->createNumber();
+            // $no = $this->createNumber();
             $details = PengajuanDanaDetail::where('nomor', $no);
 
             return view('pengajuandana.create', compact('no', 'details'))->with('status', 'Input Pembayaran harus diisi!!!');
@@ -78,7 +78,7 @@ class ControllerPengajuanDana extends Controller
 
         if ($pembayaran == 't') {
             if (empty($request->nomor_rekening) or empty($request->bank) or empty($request->atas_nama) or empty($request->email)) {
-                $no = $this->createNumber();
+                // $no = $this->createNumber();
                 $details = PengajuanDanaDetail::where('nomor', $no);
     
                 return view('pengajuandana.create', compact('no', 'details'))->with('status', 'Nomor rekening, nama bank, a/n dan email tidak boleh kosong!!!');

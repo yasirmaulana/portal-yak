@@ -19,12 +19,17 @@ Route::resource('pengajuan', 'ControllerPengajuanDana')->middleware(['auth', 'ro
 Route::resource('pengajuandetail', 'ControllerPengajuanDanaDetail')->middleware(['auth', 'rolestandar']);
 Route::resource('persetujuanpengajuandana', 'ControllerPersetujuanPengajuanDana')->middleware(['auth', 'rolemanager']);
 
-Route::get('/addmenu', function () {
+Route::get('/addSeq', function () {
     $post = new Sequence;
     $post->no = 0;
-    // $post->name = 'Pengajuan Dana';
-    // $post->role = 'standar';
-    // $post->route = 'pengajuan.index';
+    $post->save();
+    return $post;
+});
+Route::get('/addmenu', function () {
+    $post = new Menu;
+    $post->name = 'Persetujuan Pengajuan Dana';
+    $post->role = 'manager';
+    $post->route = 'persetujuanpengajuandana.index';
     $post->save();
     return $post;
 });
@@ -33,10 +38,8 @@ Route::get('/getsekuen', function () {
     $data = PengajuanDana::where('user_id', $user)->get();
     return $data;
 });
-
 Route::get('/deleteDetail', function(){
     $post = PengajuanDanaDetail::where('nomor', 'IT/6/01/2019');
     $post->delete();
-
     return 'hahahahah';
 });

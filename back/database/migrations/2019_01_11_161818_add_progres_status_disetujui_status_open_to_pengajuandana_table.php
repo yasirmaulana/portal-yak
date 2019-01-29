@@ -15,7 +15,7 @@ class AddProgresStatusDisetujuiStatusOpenToPengajuandanaTable extends Migration
     {
         Schema::table('pengajuandana', function (Blueprint $table) {
             $table->string('progres')->nullable();
-            $table->string('statusdisetujui')->nullable();
+            $table->integer('statusdisetujui')->nullable();
             $table->string('statusopen')->nullable();
         });
     }
