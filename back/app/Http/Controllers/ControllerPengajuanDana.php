@@ -208,11 +208,17 @@ class ControllerPengajuanDana extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteDetail(){
-        $post = PengajuanDanaDetail::where('nomor', 'IT/6/01/2019');
-        $post->delete();
+    public function cancel($id){
+        $post = PengajuanDana::find($id);
+        $port->statusopen = 'c';
 
-        return 'hahahahah';
+        // statusopen
+        // c = cancel
+        // y = open
+        // t = close
+
+        $post->save();
+        // return 'hahahahah';
     }
 
     public function destroy($id)
