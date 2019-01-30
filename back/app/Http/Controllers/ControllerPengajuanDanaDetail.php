@@ -111,7 +111,7 @@ class ControllerPengajuanDanaDetail extends Controller
         $detail = PengajuanDanaDetail::find($id);
         $detail->delete();
 
-        return redirect()->route('pengajuan.create');
+        return redirect()->route('pengajuan.front');
     }
 
 }

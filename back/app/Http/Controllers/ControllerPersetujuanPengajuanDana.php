@@ -16,7 +16,7 @@ class ControllerPersetujuanPengajuanDana extends Controller
     public function index()
     {
         $data = PengajuanDana::where('progres', 'manager')
-                             ->where('statusdisetujui', 'w')
+                             ->where('statusdisetujui', 1)
                              ->where('divisi', Auth::user()->divisi)
                              ->get();
         return view('pengajuandana/listpengajuan', ['data' => $data]);

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Sequence;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
+use App\Pengguna;
 use Auth;
 
 class ControllerPengajuanDana extends Controller
@@ -55,6 +56,38 @@ class ControllerPengajuanDana extends Controller
         return view('pengajuandana.create', compact('no', 'details'))->with('status', '');
     }
     
+    public function sendWA($nomorWA,$pesan)
+    {
+        // $number="6281586245143";
+        // $msg="test send wa from route with image, setting .env";
+        $img="http://www.wegeek.net/wp-content/uploads/2016/08/Aggiornamento-WhatsApp-Windows-Phone.jpg";
+
+        $number=$nomorWA;
+        $msg=$pesan;
+        $JSON_DATA ='{
+            "token": "'. env('PICKY_TOKEN') .'",
+            "priority ":0,
+            "application":"1",
+            "sleep":0,
+            "globalmessage":"'.$msg.'",
+            "globalmedia":"",
+            "data":[
+                {"number":"'.$number.'","message":""}
+            ]
+        }';
+        //--CURL FUNCTION TO CALL THE API--
+        $url = env('PICKY_URL');
+        $ch = curl_init($url);                                                                      
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $JSON_DATA);                                                                  
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+        'Content-Type: application/json', 'Content-Length: ' . strlen($JSON_DATA))); 		                                                                                                                   
+        $result = curl_exec($ch);
+    
+        echo $number . $msg;
+
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -69,18 +102,12 @@ class ControllerPengajuanDana extends Controller
         
         // CEK INPUTAN PEMBAYARAN
         if  (empty($pembayaran)) {
-            // $no = $this->createNumber();
-            $details = PengajuanDanaDetail::where('nomor', $no);
-
             return view('pengajuandana.create', compact('no', 'details'))->with('status', 'Input Pembayaran harus diisi!!!');
             // return redirect()->back()->with('status', 'Input Pembayaran harus diisi!!!');
         }
 
         if ($pembayaran == 't') {
             if (empty($request->nomor_rekening) or empty($request->bank) or empty($request->atas_nama) or empty($request->email)) {
-                // $no = $this->createNumber();
-                $details = PengajuanDanaDetail::where('nomor', $no);
-    
                 return view('pengajuandana.create', compact('no', 'details'))->with('status', 'Nomor rekening, nama bank, a/n dan email tidak boleh kosong!!!');
             }
         }
@@ -95,12 +122,23 @@ class ControllerPengajuanDana extends Controller
             $post->atas_nama = $request->atas_nama;
             $post->email = $request->email;
             $post->nomor = $request->nomor;
-            $post->progres = 'manager';
-            $post->statusdisetujui = 'w';
-            $post->statusopen = 'o';
+            $post->progres = $request->progres;
+            $post->statusdisetujui = $request->statusdisetujui;
+            $post->statusopen = $request->statusopen;
             $post->divisi = Auth::user()->divisi;
             $post->save();
     
+            
+            // SEND WA TO MANAGER
+            $nomorWA = Pengguna::select('nomor_wa')
+                                ->where('divisi',Auth::user()->divisi)
+                                ->where('jabatan','manager')
+                                ->get();
+            $nomorWA = implode($nomorWA);
+
+            $pesan = $details;
+            $this->sendWA($nomorWA,$pesan);
+            
             // UPDATE SEUEN
             $updateDate = date_format(Sequence::find(1)->updated_at, 'm/Y');
             $datenow = date_format(now(), 'm/Y');
@@ -114,6 +152,7 @@ class ControllerPengajuanDana extends Controller
             }
             $seq->save();
             
+
             // GOT TO FRONT
             $user = Auth::user()->id;
             $pengajuandana = PengajuanDana::where('user_id', $user)->get();

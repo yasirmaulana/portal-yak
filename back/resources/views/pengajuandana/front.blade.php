@@ -24,7 +24,7 @@
             <a class="nav-link" data-toggle="tab" href="#menu2">LPJ</a>
         </li>
     </ul>
-
+{{$pengajuandana}}
     <div class="tab-content">
         <div id="home" class="container tab-pane active"><br>
             <a href="{{ route('pengajuan.create') }}">+ Ajukan Dana</a>
@@ -38,7 +38,7 @@
                         <th>Atas Nama</th>
                         <th>Email</th>
                         <th>Proses</th>
-                        <!-- <th>Status</th> -->
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,7 +61,17 @@
                         <td>{{$detail->atas_nama}}</td>
                         <td>{{$detail->email}}</td>
                         <td>{{$detail->progres}}</td>
-                        <!-- <td>{{$detail->statusdisetujui}}</td> -->
+                        <td>
+                            <form action="route('pengajuan.destroy', $detail->id)">
+                                @csrf
+                                @method('DELETE')
+                                @if($detail->statusdisetujui==1)
+                                    <button type="submit" class="btn btn-warning">Batal</button>
+                                @else
+                                    <button disabled type="submit" class="btn btn-success">Menunggu</button>
+                                @endif
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
