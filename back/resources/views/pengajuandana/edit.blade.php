@@ -1,57 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container shadow p-4 mb-4 bg-white" style="background:white; padding:10px">
-    <!-- FORMULIR PENGAJUAN DANA -->
-    <div id="home" class="container tab-pane active"><br>
-        <h1>DATA PENGAJUAN DANA</h1>
-{{$pengajuan[0]}}        
-            <div class="form-group row">
-                <label class="col-md-3 col-form-label text-md-right">Pembayaran :</label>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value="{{$pengajuan[0]->pembayaran}}"  disabled style="border: 0;background: none;">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3 col-form-label text-md-right">Nomor Rekening Transfer :</label>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value=""  disabled style="border: 0;background: none;">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3 col-form-label text-md-right">Nama Bank :</label>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value=""  disabled style="border: 0;background: none;">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3 col-form-label text-md-right">a/n Rekening :</label>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value=""  disabled style="border: 0;background: none;">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-3 col-form-label text-md-right">Email :</label>
-                <div class="col-md-7">
-                    <input type="text" class="form-control" value=""  disabled style="border: 0;background: none;">
-                </div>
-            </div>
-    </div>
+<div class="container">
+    @if ($status == '')
+    @else
+        <div class="alert alert-danger col-md-12"><strong>{{$status}}</strong></div>
+    @endif
     
     <!-- FORMULIR PENGAJUAN DANA DETAIL -->
+    <h3>Detail Pengajuan Dana</h3><p>
+    <b>Nomor Pengajuan : {{$no}}</b><p>
+    <a href="{{route('pengajuan.index')}}" class="btn btn-info">Kembali ke lis</a>
+    
     <div class="form-group row">
         <div class="col-md-8">
+            @if($pengajuan[0]->statusdisetujui==1)
             <a href="" data-toggle="modal" data-target="#myModal">
                 + tambah detail
             </a>
+            @endif
             <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form action="{{route('pengajuandetail.store')}}" method="post">
+                            <form action="{{route('pengajuanedit.store')}}" method="post">
                                 @csrf
-                                <input type="text" class="form-control" name="nomor" value="{{$pengajuan[0]->nomor}}" style="border: 0;background: none;">
+                                <input type="text" class="form-control" name="nomor" value="{{$no}}" style="border: 0;background: none;">
                                 <input type="hidden" class="form-control" name="user_id" placeholder="user_id" value="{{Auth::user()->id}}">
                                 <input type="text" class="form-control" name="item" placeholder="item">
                                 <input type="number" class="form-control" name="satuan" placeholder="satuan (tulis tanpa titik)">
@@ -65,34 +40,40 @@
         </div>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>qty</th>
-                <th>@Harga</th>
-                <th>Jumlah</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach( $details as $detail )
-            <tr>
-                <td>{{ $detail->item }}</td>
-                <td>{{ number_format($detail->satuan) }}</td>
-                <td>{{ number_format($detail->harga) }}</td>
-                <td>{{ number_format($detail->satuan * $detail->harga) }}</td>
-                <td>
-                <form action="{{route('pengajuandetail.destroy', $detail->id)}}" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>qty</th>
+                    <th>@Harga</th>
+                    <th>Total Harga</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach( $details as $detail )
+                <tr>
+                    <td>{{ $detail->item }}</td>
+                    <td>{{ number_format($detail->satuan) }}</td>
+                    <td>{{ number_format($detail->harga) }}</td>
+                    <td>{{ number_format($detail->satuan * $detail->harga) }}</td>
+                    <td>
+                    @if($pengajuan[0]->statusdisetujui==1)
+                    <form action="{{route('pengajuanedit.destroy', $detail->id)}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                    @else
+                        <button disabled type="submit" class="btn btn-info">Menunggu...</button>
+                    @endif
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
 </div>
 

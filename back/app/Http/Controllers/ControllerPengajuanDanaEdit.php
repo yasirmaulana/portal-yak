@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Auth;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
-use Illuminate\Http\Request;
 
-class ControllerPengajuanDanaDetail extends Controller
+class ControllerPengajuanDanaEdit extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,8 +37,6 @@ class ControllerPengajuanDanaDetail extends Controller
      */
     public function store(Request $request)
     {
-        
-        // if($request->item !== '' or $request->satuan !== '' or $request->harga !== ''){
         if (!($request->item == NULL or $request->satuan == NULL or $request->harga == NULL)) {
             
             $post = new PengajuanDanaDetail;
@@ -52,19 +50,19 @@ class ControllerPengajuanDanaDetail extends Controller
             $post->save();
             
             $no = $request->nomor;
+            $pengajuan = PengajuanDana::where('nomor', $no)->get();
             $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
             
-            return view('pengajuandana.create', compact('no', 'details'))->with('status', '');
+            return view('pengajuandana.edit', compact('no', 'pengajuan', 'details'))->with('status', '');
         } else {
             $no = $request->nomor;
+            $pengajuan = PengajuanDana::where('nomor', $no)->get();
             $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
 
-            return view('pengajuandana.create', compact('no', 'details'))->with('status', 'semua field wajib diisi');
+            return view('pengajuandana.edit', compact('no', 'pengajuan', 'details'))->with('status', 'semua field wajib diisi');
         }
-            
     }
 
-    
     /**
      * Display the specified resource.
      *
@@ -82,9 +80,12 @@ class ControllerPengajuanDanaDetail extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nomor)
     {
-        //
+        $no = $nomor;
+        $pengajuan = PengajuanDana::where('nomor', $nomor)->get();
+        $details = PengajuanDanaDetail::where('nomor', $nomor)->get();
+        return view('pengajuandana.edit', compact('no', 'pengajuan', 'details'))->with('status', '');
     }
 
     /**
@@ -107,10 +108,14 @@ class ControllerPengajuanDanaDetail extends Controller
      */
     public function destroy($id)
     {
-        $detail = PengajuanDanaDetail::find($id);
-        $detail->delete();
+        $deleteDetail = PengajuanDanaDetail::find($id);
+        $deleteDetail->delete();
 
-        return redirect()->route('pengajuan.create');
+        $no = $deleteDetail->nomor;
+        $pengajuan = PengajuanDana::where('nomor', $no)->get();
+        $details = PengajuanDanaDetail::where('nomor', $no)->get();
+        
+        return view('pengajuandana.edit', compact('no', 'pengajuan', 'details'))->with('status', '');
+
     }
-
 }

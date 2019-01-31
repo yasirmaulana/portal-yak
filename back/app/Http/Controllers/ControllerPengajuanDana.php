@@ -134,10 +134,10 @@ class ControllerPengajuanDana extends Controller
                                 ->where('divisi',Auth::user()->divisi)
                                 ->where('jabatan','manager')
                                 ->get();
-            $nomorWA = implode($nomorWA);
+            // $nomorWA = implode($nomorWA);
 
             $pesan = $details;
-            $this->sendWA($nomorWA,$pesan);
+            // $this->sendWA($nomorWA,$pesan);
             
             // UPDATE SEUEN
             $updateDate = date_format(Sequence::find(1)->updated_at, 'm/Y');
@@ -208,30 +208,14 @@ class ControllerPengajuanDana extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function cancel($id){
-        $post = PengajuanDana::find($id);
-        $port->statusopen = 'c';
-
-        // statusopen
-        // c = cancel
-        // y = open
-        // t = close
-
-        $post->save();
-        // return 'hahahahah';
-    }
-
-    public function destroy($id)
+    public function destroy($nomor)
     {
-        // $no = $this->createNumber();
-        // PengajuanDanaDetail::forceDelete()
-        //     ->where('nomor', $id)
-        //     ->get();
-        
-        // $user = Auth::user()->id;
-        // $data = PengajuanDana::where('user_id', $user)->get();
+        $deletePengajuan = PengajuanDana::where('nomor', $nomor);
+        $deletePengajuan->delete();
 
-        // return view('pengajuandana/front', compact('data'));
-        return 'hahahahaha';
+        $deletePengajuanDetail = PengajuanDanaDetail::where('nomor', $nomor);
+        $deletePengajuanDetail->delete();
+
+        return redirect()->route('pengajuan.index');
     }
 }
