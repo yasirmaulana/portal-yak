@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PengajuanDana;
+use App\PengajuanDanaDetail;
+use App\User;
 use Auth;
 
 class ControllerPersetujuanPengajuanDana extends Controller
@@ -19,7 +21,7 @@ class ControllerPersetujuanPengajuanDana extends Controller
                              ->where('statusdisetujui', 1)
                              ->where('divisi', Auth::user()->divisi)
                              ->get();
-        return view('pengajuandana/listpengajuan', ['data' => $data]);
+        return view('pengajuandana.m_pengajuan', ['data' => $data]);
     }
 
     /**
@@ -49,9 +51,13 @@ class ControllerPersetujuanPengajuanDana extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($nomor)
     {
-        //
+        $no = $nomor;
+        $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
+        $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
+        $details = PengajuanDanaDetail::where('nomor',$no)->get();
+        return view('pengajuandana.m_pengajuandetail', compact('no', 'namaPengaju', 'details'));
     }
 
     /**

@@ -27,11 +27,11 @@
                             <form action="{{route('pengajuanedit.store')}}" method="post">
                                 @csrf
                                 <input type="text" class="form-control" name="nomor" value="{{$no}}" style="border: 0;background: none;">
-                                <input type="hidden" class="form-control" name="user_id" placeholder="user_id" value="{{Auth::user()->id}}">
-                                <input type="text" class="form-control" name="item" placeholder="item">
-                                <input type="number" class="form-control" name="satuan" placeholder="satuan (tulis tanpa titik)">
-                                <input type="number" class="form-control" name="harga" placeholder="harga (tulis tanpa titik)">
-                                <button type="submit" class="btn btn-primary">Tambah Detail</button>
+                                <p><input type="hidden" class="form-control" name="user_id" placeholder="user_id" value="{{Auth::user()->id}}">
+                                <p><input type="text" class="form-control" name="item" placeholder="item">
+                                <p><input type="number" class="form-control" name="satuan" placeholder="satuan (tulis tanpa titik)">
+                                <p><input type="number" class="form-control" name="harga" placeholder="harga (tulis tanpa titik)">
+                                <p><button type="submit" class="btn btn-success">Tambah Detail</button>
                             </form>
                         </div>
                     </div>

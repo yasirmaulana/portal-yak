@@ -1,10 +1,9 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <h4>PENGAJUAN DANA</h4>
+    <p><h4>PENGAJUAN DANA</h4>
     <div class="table-responsive">
-        <p><a href="{{ route('pengajuan.create') }}" class="btn btn-success">Isi Formulir Pengajuan</a><p>
-        <table class="table table-hover">
+        <p><table class="table table-hover">
             <thead>
                 <tr>
                     <th>Tanggal Pengajuan</th>
@@ -13,16 +12,16 @@
                     <th>No Rekening</th>
                     <th>Atas Nama</th>
                     <th>Email</th>
-                    <th>Proses</th>
+                    <th>Total</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($pengajuandana as $detail) 
+                @foreach($data as $detail)
                 <tr>
                     <td>{{$detail->created_at}}</td>
                     <td>
-                        <a href="{{route('pengajuanedit.edit', $detail->nomor)}}">
+                        <a href="{{route('persetujuanpengajuandana.show', $detail->nomor)}}">
                             {{$detail->nomor}}
                         </a>
                     </td>
@@ -36,22 +35,16 @@
                     <td>{{$detail->nomor_rekening}}</td>
                     <td>{{$detail->atas_nama}}</td>
                     <td>{{$detail->email}}</td>
-                    <td>{{$detail->progres}}</td>
+                    <td>Rp. 1.000.000</td>
                     <td>
-                        <form action="{{route('pengajuan.destroy', $detail->nomor)}}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            @if($detail->statusdisetujui==1)
-                                <button type="submit" class="btn btn-warning">Batal</button>
-                            @else
-                                <button disabled type="submit" class="btn btn-info">Menunggu...</button>
-                            @endif
-                        </form>
+                        <a href="" class="btn btn-success">Setuju</a>
+                        <a class="btn btn-danger">Tolak</a>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
 </div>
 @endsection
