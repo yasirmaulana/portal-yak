@@ -35,10 +35,10 @@
                     <td>{{$detail->nomor_rekening}}</td>
                     <td>{{$detail->atas_nama}}</td>
                     <td>{{$detail->email}}</td>
-                    <td>Rp. 1.000.000</td>
+                    <td>Rp. ???</td>
                     <td>
-                        <a href="" class="btn btn-success">Setuju</a>
-                        <a class="btn btn-danger">Tolak</a>
+                        <a href="{{route('persetujuanpengajuandana.edit', 's'.$detail->nomor)}}" class="btn btn-success">Setuju</a>
+                        <a href="{{route('persetujuanpengajuandana.edit', 't'.$detail->nomor)}}" class="btn btn-danger">Tolak</a>
                     </td>
                 </tr>
                 @endforeach

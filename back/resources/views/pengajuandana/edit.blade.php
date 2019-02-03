@@ -10,13 +10,13 @@
     <!-- FORMULIR PENGAJUAN DANA DETAIL -->
     <h3>Detail Pengajuan Dana</h3><p>
     <b>Nomor Pengajuan : {{$no}}</b><p>
-    <a href="{{route('pengajuan.index')}}" class="btn btn-info">Kembali ke lis</a>
+    <a href="{{route('pengajuan.index')}}">Kembali ke lis</a>
     
     <div class="form-group row">
         <div class="col-md-8">
             @if($pengajuan[0]->statusdisetujui==1)
-            <a href="" data-toggle="modal" data-target="#myModal">
-                + tambah detail
+            <a href="" data-toggle="modal" data-target="#myModal" class="btn btn-success">
+                Tambah detail
             </a>
             @endif
             <!-- Modal -->
@@ -60,13 +60,19 @@
                     <td>{{ number_format($detail->satuan * $detail->harga) }}</td>
                     <td>
                     @if($pengajuan[0]->statusdisetujui==1)
-                    <form action="{{route('pengajuanedit.destroy', $detail->id)}}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
+                        <form action="{{route('pengajuanedit.destroy', $detail->id)}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </form>
+                    @elseif($pengajuan[0]->statusdisetujui==0)
+                        <button disabled class="btn btn-danger">Ditolak</button>
                     @else
-                        <button disabled type="submit" class="btn btn-info">Menunggu...</button>
+                        @if($detail->statusditolak==1)
+                            <button disabled class="btn btn-danger">Ditolak</button>
+                        @else
+                            <button disabled type="submit" class="btn btn-info">Menunggu...</button>
+                        @endif
                     @endif
                     </td>
                 </tr>

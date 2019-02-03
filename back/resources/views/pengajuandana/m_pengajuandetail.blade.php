@@ -6,8 +6,8 @@
     <h3>Detail Pengajuan Dana</h3><p>
     <b>Nomor Pengajuan : {{$no}}</b><p>
     <b>Nama Pengaju : {{$namaPengaju[0]->name}}</b><p>
-    <a href="{{route('pengajuan.index')}}" class="btn btn-success">Setuju</a>
-    <a href="{{route('pengajuan.index')}}" class="btn btn-danger">Tolak</a><p>
+    <a href="{{route('persetujuanpengajuandana.edit', 's'.$no)}}" class="btn btn-success">Setuju</a>
+    <a href="{{route('persetujuanpengajuandana.edit', 't'.$no)}}" class="btn btn-danger">Tolak</a><p>
     <a href="{{route('persetujuanpengajuandana.index')}}">Kembali ke list</a>
     
     <div class="table-responsive">
@@ -29,11 +29,7 @@
                     <td>{{ number_format($detail->harga) }}</td>
                     <td>{{ number_format($detail->satuan * $detail->harga) }}</td>
                     <td>
-                        <form action="{{route('pengajuanedit.destroy', $detail->id)}}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Tolak</button>
-                        </form>
+                        <a href="{{route('persetujuanpengajuandetail.edit', $detail->id)}}" class="btn btn-danger">Hapus</a>
                     </td>
                 </tr>
                 @endforeach

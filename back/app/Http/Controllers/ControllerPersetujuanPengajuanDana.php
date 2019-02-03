@@ -56,7 +56,7 @@ class ControllerPersetujuanPengajuanDana extends Controller
         $no = $nomor;
         $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
         $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
-        $details = PengajuanDanaDetail::where('nomor',$no)->get();
+        $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
         return view('pengajuandana.m_pengajuandetail', compact('no', 'namaPengaju', 'details'));
     }
 
@@ -66,9 +66,18 @@ class ControllerPersetujuanPengajuanDana extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nomor)
     {
-        //
+        $cek = substr($nomor,0,1);
+        $no = substr($nomor,1,8);
+        // return $no;
+        if($cek == 's') {
+            PengajuanDana::where('nomor', $no)->update(['progres' => 'accounting', 'statusdisetujui' => 2]);
+        } else {
+            PengajuanDana::where('nomor', $no)->update(['statusdisetujui' => 0]);
+        }
+       
+        return redirect()->route('persetujuanpengajuandana.index');
     }
 
     /**
@@ -78,9 +87,9 @@ class ControllerPersetujuanPengajuanDana extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $nomor)
     {
-        //
+        // 
     }
 
     /**
@@ -91,6 +100,6 @@ class ControllerPersetujuanPengajuanDana extends Controller
      */
     public function destroy($id)
     {
-        //
+        // 
     }
 }

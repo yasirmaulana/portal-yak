@@ -43,6 +43,8 @@
                             @method('DELETE')
                             @if($detail->statusdisetujui==1)
                                 <button type="submit" class="btn btn-warning">Batal</button>
+                            @elseif($detail->statusdisetujui==0)
+                                <button disabled class="btn btn-danger">Ditolak</button>
                             @else
                                 <button disabled type="submit" class="btn btn-info">Menunggu...</button>
                             @endif

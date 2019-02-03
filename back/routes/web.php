@@ -19,6 +19,7 @@ Route::resource('pengajuan', 'ControllerPengajuanDana')->middleware(['auth', 'ro
 Route::resource('pengajuanedit', 'ControllerPengajuanDanaEdit')->middleware(['auth', 'rolestandar']);
 Route::resource('pengajuandetail', 'ControllerPengajuanDanaDetail')->middleware(['auth', 'rolestandar']);
 Route::resource('persetujuanpengajuandana', 'ControllerPersetujuanPengajuanDana')->middleware(['auth', 'rolemanager']);
+Route::resource('persetujuanpengajuandetail', 'ControllerPersetujuanPengajuanDetail')->middleware(['auth', 'rolemanager']);
 
 Route::get('/addSeq', function () {
     $post = new Sequence;
