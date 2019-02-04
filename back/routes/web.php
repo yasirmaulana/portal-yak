@@ -5,6 +5,7 @@ use App\Tab;
 use App\Menu;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
+use App\KodeBudget;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,6 +21,7 @@ Route::resource('pengajuanedit', 'ControllerPengajuanDanaEdit')->middleware(['au
 Route::resource('pengajuandetail', 'ControllerPengajuanDanaDetail')->middleware(['auth', 'rolestandar']);
 Route::resource('persetujuanpengajuandana', 'ControllerPersetujuanPengajuanDana')->middleware(['auth', 'rolemanager']);
 Route::resource('persetujuanpengajuandetail', 'ControllerPersetujuanPengajuanDetail')->middleware(['auth', 'rolemanager']);
+Route::resource('persetujuanpengajuanaccounting', 'ControllerPersetujuanPengajuanAccounting')->middleware(['auth', 'roleaccounting']);
 
 Route::get('/addSeq', function () {
     $post = new Sequence;
@@ -30,18 +32,15 @@ Route::get('/addSeq', function () {
 Route::get('/addmenu', function () {
     $post = new Menu;
     $post->name = 'Persetujuan Pengajuan Dana';
-    $post->role = 'manager';
-    $post->route = 'persetujuanpengajuandana.index';
+    $post->role = 'accounting';
+    $post->route = 'persetujuanpengajuanaccounting.index';
     $post->save();
     return $post;
 });
-Route::get('/getsekuen', function () {
-    $user = Auth::user()->id;
-    $data = PengajuanDana::where('user_id', $user)->get();
-    return $data;
-});
-Route::get('/deleteDetail', function(){
-    $post = PengajuanDanaDetail::where('nomor', 'IT/6/01/2019');
-    $post->delete();
-    return 'hahahahah';
+Route::get('/addkodebudget', function () {
+    $post= new KodeBudget;
+    $post->kode_budget = '002';
+    $post->deskripsi = 'Guru Ngaji';
+    $post->save();
+    return $post;
 });

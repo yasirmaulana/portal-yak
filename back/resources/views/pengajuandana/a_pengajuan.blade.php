@@ -12,12 +12,12 @@
                     <th>No Rekening</th>
                     <th>Atas Nama</th>
                     <th>Email</th>
-                    <!-- <th>Total</th> -->
+                    <th>Kode Budget</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($data as $detail)
+                @foreach($details as $detail)
                 <tr>
                     <td>{{$detail->created_at}}</td>
                     <td>
@@ -35,7 +35,18 @@
                     <td>{{$detail->nomor_rekening}}</td>
                     <td>{{$detail->atas_nama}}</td>
                     <td>{{$detail->email}}</td>
-                    <!-- <td>Rp. ???</td> -->
+                    <td>
+                        <form action="/action_page.php">
+                            <div class="form-group">
+                                <select class="form-control" id="sel1" name="sellist1">
+                                    <option>--Pilih--</option>
+                                    @foreach($kodebudgets as $kodebudget)
+                                    <option value="{{$kodebudget->}}">{{$kodebudget->deskripsi}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
+                    </td>
                     <td>
                         <a href="{{route('persetujuanpengajuandana.edit', 's'.$detail->nomor)}}" class="btn btn-success">Setuju</a>
                         <a href="{{route('persetujuanpengajuandana.edit', 't'.$detail->nomor)}}" class="btn btn-danger">Tolak</a>
