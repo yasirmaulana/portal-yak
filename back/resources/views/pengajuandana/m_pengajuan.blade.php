@@ -20,11 +20,7 @@
                 @foreach($data as $detail)
                 <tr>
                     <td>{{$detail->created_at}}</td>
-                    <td>
-                        <a href="{{route('persetujuanpengajuandana.show', $detail->nomor)}}">
-                            {{$detail->nomor}}
-                        </a>
-                    </td>
+                    <td>{{$detail->nomor}}</td>
                     <td>
                         @if($detail->pembayaran == 't')
                             Transfer
@@ -37,8 +33,9 @@
                     <td>{{$detail->email}}</td>
                     <!-- <td>Rp. ???</td> -->
                     <td>
-                        <a href="{{route('persetujuanpengajuandana.edit', 's'.$detail->nomor)}}" class="btn btn-success">Setuju</a>
-                        <a href="{{route('persetujuanpengajuandana.edit', 't'.$detail->nomor)}}" class="btn btn-danger">Tolak</a>
+                        <a href="{{route('persetujuanpengajuandana.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
+                        <!-- <a href="{{route('persetujuanpengajuandana.edit', 's'.$detail->nomor)}}" class="btn btn-success">Setuju</a> -->
+                        <!-- <a href="{{route('persetujuanpengajuandana.edit', 't'.$detail->nomor)}}" class="btn btn-danger">Tolak</a> -->
                     </td>
                 </tr>
                 @endforeach

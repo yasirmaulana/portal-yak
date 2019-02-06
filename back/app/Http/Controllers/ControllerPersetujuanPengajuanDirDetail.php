@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\KodeBudget;
-use App\PengajuanDana;
 use App\PengajuanDanaDetail;
-use App\User;
 
-class ControllerPersetujuanPengajuanAccounting extends Controller
+class ControllerPersetujuanPengajuanDirDetail extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +14,7 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      */
     public function index()
     {
-        $details = PengajuanDana::where('statusdisetujui', 2)->get();
-        $kodebudgets = KodeBudget::all(); 
-        return view('pengajuandana.a_pengajuan', compact('details', 'kodebudgets'));
+        //
     }
 
     /**
@@ -49,15 +44,9 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($nomor)
+    public function show($id)
     {
-        $no = $nomor;
-        $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
-        $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
-        $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
-        $kodebudgets = KodeBudget::all(); 
-
-        return view('pengajuandana.a_pengajuandetail', compact('no', 'namaPengaju', 'details', 'kodebudgets'));
+        //
     }
 
     /**
@@ -68,7 +57,11 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      */
     public function edit($id)
     {
-        //
+        PengajuanDanaDetail::where('id', $id)->update(['statusditolak' => 1]);
+        
+        $no = PengajuanDanaDetail::select('nomor')->where('id', $id)->get();
+
+        return redirect()->route('persetujuanpengajuandirektur.show', $no[0]->nomor);
     }
 
     /**

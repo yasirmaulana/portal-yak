@@ -65,6 +65,8 @@ class Kernel extends HttpKernel
         'rolestandar' => \App\Http\Middleware\RoleStandar::class,
         'rolemanager' => \App\Http\Middleware\RoleManager::class,
         'roleaccounting' => \App\Http\Middleware\RoleAccounting::class,
+        'roledirektur' => \App\Http\Middleware\RoleDirektur::class,
+        
     ];
 
     /**

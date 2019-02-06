@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PengajuanDanaDetail;
-use User;
+use App\PengajuanDana;
+use App\User;
 
 class ControllerPersetujuanPengajuanDetail extends Controller
 {
@@ -60,8 +61,9 @@ class ControllerPersetujuanPengajuanDetail extends Controller
     {
         PengajuanDanaDetail::where('id', $id)->update(['statusditolak' => 1]);
         
-        return 'statud ditolak sudah dirubah';
-        // return redirect()->route('');
+        $no = PengajuanDanaDetail::select('nomor')->where('id', $id)->get();
+
+        return redirect()->route('persetujuanpengajuandana.show', $no[0]->nomor);
     }
 
     /**

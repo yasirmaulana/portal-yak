@@ -7,9 +7,9 @@ use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\KodeBudget;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
@@ -22,25 +22,27 @@ Route::resource('pengajuandetail', 'ControllerPengajuanDanaDetail')->middleware(
 Route::resource('persetujuanpengajuandana', 'ControllerPersetujuanPengajuanDana')->middleware(['auth', 'rolemanager']);
 Route::resource('persetujuanpengajuandetail', 'ControllerPersetujuanPengajuanDetail')->middleware(['auth', 'rolemanager']);
 Route::resource('persetujuanpengajuanaccounting', 'ControllerPersetujuanPengajuanAccounting')->middleware(['auth', 'roleaccounting']);
+Route::resource('persetujuanpengajuandirektur', 'ControllerPersetujuanPengajuanDirektur')->middleware(['auth', 'roledirektur']);
+Route::resource('persetujuanpengajuandirdetail', 'ControllerPersetujuanPengajuanDirDetail')->middleware(['auth', 'roledirektur']);
 
-Route::get('/addSeq', function () {
-    $post = new Sequence;
-    $post->no = 0;
-    $post->save();
-    return $post;
-});
-Route::get('/addmenu', function () {
-    $post = new Menu;
-    $post->name = 'Persetujuan Pengajuan Dana';
-    $post->role = 'accounting';
-    $post->route = 'persetujuanpengajuanaccounting.index';
-    $post->save();
-    return $post;
-});
-Route::get('/addkodebudget', function () {
-    $post= new KodeBudget;
-    $post->kode_budget = '002';
-    $post->deskripsi = 'Guru Ngaji';
-    $post->save();
-    return $post;
-});
+// Route::get('/addSeq', function () {
+//     $post = new Sequence;
+//     $post->no = 0;
+//     $post->save();
+//     return $post;
+// });
+// Route::get('/addmenu', function () {
+//     $post = new Menu;
+//     $post->name = 'Persetujuan Pengajuan Dana';
+//     $post->role = 'direktur';
+//     $post->route = 'persetujuanpengajuandirektur.index';
+//     $post->save();
+//     return $post;
+// });
+// Route::get('/addkodebudget', function () {
+//     $post= new KodeBudget;
+//     $post->kode_budget = '002';
+//     $post->deskripsi = 'Guru Ngaji';
+//     $post->save();
+//     return $post;
+// });

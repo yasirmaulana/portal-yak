@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
+direktur
     <p><h4>PENGAJUAN DANA</h4>
     <div class="table-responsive">
         <p><table class="table table-hover">
@@ -12,7 +13,6 @@
                     <th>No Rekening</th>
                     <th>Atas Nama</th>
                     <th>Email</th>
-                    <!-- <th>Kode Budget</th> -->
                     <th>Action</th>
                 </tr>
             </thead>
@@ -31,11 +31,8 @@
                     <td>{{$detail->nomor_rekening}}</td>
                     <td>{{$detail->atas_nama}}</td>
                     <td>{{$detail->email}}</td>
-                    <!-- <td></td> -->
                     <td>
-                        <a href="{{route('persetujuanpengajuanaccounting.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
-                        <!-- <a href="{{route('persetujuanpengajuandana.edit', 's'.$detail->nomor)}}" class="btn btn-success">Setuju</a> -->
-                        <!-- <a href="{{route('persetujuanpengajuandana.edit', 't'.$detail->nomor)}}" class="btn btn-danger">Tolak</a> -->
+                        <a href="{{route('persetujuanpengajuandirektur.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
                     </td>
                 </tr>
                 @endforeach
