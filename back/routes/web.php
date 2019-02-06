@@ -26,9 +26,9 @@ Route::resource('persetujuanpengajuandirektur', 'ControllerPersetujuanPengajuanD
 Route::resource('persetujuanpengajuandirdetail', 'ControllerPersetujuanPengajuanDirDetail')->middleware(['auth', 'roledirektur']);
 Route::resource('listkasir', 'ControllerListKasir')->middleware(['auth', 'rolekasir']);
 Route::resource('lpj', 'ControllerLPJ')->middleware(['auth', 'rolestandar']);
-// Route::resource('mlpj', 'ControllerMViewLPJ')->middleware(['auth', '']);
+Route::resource('mlpj', 'ControllerViewLPJM')->middleware(['auth', 'rolemanager']);
 Route::resource('viewlpj', 'ControllerViewLPJ')->middleware(['auth', 'roleviewlpj']);
-// Route::resource('mlpj', 'ControllerCLPJ')->middleware(['auth', '']);
+Route::resource('klpj', 'ControllerKasirLPJ')->middleware(['auth', 'rolekasir']);
 
 // Route::get('/addSeq', function () {
 //     $post = new Sequence;
@@ -37,15 +37,15 @@ Route::resource('viewlpj', 'ControllerViewLPJ')->middleware(['auth', 'roleviewlp
 
 //     return $post;
 // });
-Route::get('/addmenu', function () {
-    $post = new Menu;
-    $post->name = 'Laporan Pertanggung Jawaban';
-    $post->role = 'direktur';
-    $post->route = 'viewlpj.index';
-    $post->save();
+// Route::get('/addmenu', function () {
+//     $post = new Menu;
+//     $post->name = 'Laporan Pertanggung Jawaban';
+//     $post->role = 'kasir';
+//     $post->route = 'klpj.index';
+//     $post->save();
 
-    return $post;
-});
+//     return $post;
+// });
 // Route::get('/addkodebudget', function () {
 //     $post= new KodeBudget;
 //     $post->kode_budget = '002';

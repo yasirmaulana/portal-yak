@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <h3>Detail LPJ</h3><p>
+    <h3>Detail Pengajuan Dana</h3><p>
     <b>Nomor Pengajuan : {{$no}}</b><p>
-    <a href="{{route('lpj.index')}}">Kembali ke list</a><p>
+    <b>Nama Pengaju : {{$namaPengaju[0]->name}}</b><p>
+    <b>Status LPJ Close? : </b>
+    <a href="{{route('klpj.edit', $no)}}">Ya</a> | 
+    <a href="{{route('klpj.index')}}">Kembali ke list</a><p>
     
     <div class="table-responsive">
         <table class="table table-hover">

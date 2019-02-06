@@ -7,7 +7,7 @@ use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\User;
 
-class ControllerViewLPJ extends Controller
+class ControllerKasirLPJ extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class ControllerViewLPJ extends Controller
     {
         $details = PengajuanDana::where('statusdisetujui', 5)->get();
         
-        return view('lpj.view_lpj', compact('details'));
+        return view('lpj.k_lpj', compact('details'));
     }
 
     /**
@@ -55,7 +55,7 @@ class ControllerViewLPJ extends Controller
         $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
         $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
 
-        return view('lpj.view_lpjdetail', compact('no', 'namaPengaju', 'details'));
+        return view('lpj.k_lpjdetail', compact('no', 'namaPengaju', 'details'));
     }
 
     /**
@@ -64,9 +64,11 @@ class ControllerViewLPJ extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nomor)
     {
-        //
+        PengajuanDana::where('nomor', $nomor)->update(['progres' => 'close', 'statusdisetujui' => 6, 'statusopen' => 'n']);
+
+        return redirect()->route('klpj.index');
     }
 
     /**

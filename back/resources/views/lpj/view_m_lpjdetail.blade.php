@@ -3,7 +3,8 @@
 <div class="container">
     <h3>Detail LPJ</h3><p>
     <b>Nomor Pengajuan : {{$no}}</b><p>
-    <a href="{{route('lpj.index')}}">Kembali ke list</a><p>
+    <b>Nama Pengaju : {{$namaPengaju[0]->name}}</b><p>
+    <a href="{{route('viewlpj.index')}}">Kembali ke list</a><p>
     
     <div class="table-responsive">
         <table class="table table-hover">

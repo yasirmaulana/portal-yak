@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\User;
+use Auth;
 
-class ControllerViewLPJ extends Controller
+class ControllerViewLPJM extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +17,9 @@ class ControllerViewLPJ extends Controller
      */
     public function index()
     {
-        $details = PengajuanDana::where('statusdisetujui', 5)->get();
+        $details = PengajuanDana::where('statusdisetujui', 5)->where('divisi', Auth::user()->divisi)->get();
         
-        return view('lpj.view_lpj', compact('details'));
+        return view('lpj.view_m_lpj', compact('details'));
     }
 
     /**
@@ -55,7 +56,7 @@ class ControllerViewLPJ extends Controller
         $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
         $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
 
-        return view('lpj.view_lpjdetail', compact('no', 'namaPengaju', 'details'));
+        return view('lpj.view_m_lpjdetail', compact('no', 'namaPengaju', 'details'));
     }
 
     /**

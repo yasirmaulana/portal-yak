@@ -31,7 +31,7 @@
                     <td>{{$detail->atas_nama}}</td>
                     <td>{{$detail->email}}</td>
                     <td>
-                        <a href="{{route('viewlpj.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
+                        <a href="{{route('mlpj.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
                     </td>
                 </tr>
                 @endforeach
