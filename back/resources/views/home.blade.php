@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Dashboard</div>
-
                 <div class="card-body">
                     @if(empty($user->role))
                         <h5>Assalamu'alaikum {{$user->name}},</h5>
@@ -14,9 +13,9 @@
                         <h5>mohon menghubungi Admin!!!</h5>
                     @else
                         @foreach($menu as $pilih)
-                        
-                        <a href="{{route($pilih->route)}}">{{$pilih->name}}</a>
-
+                        <div class="list-group">
+                            <a href="{{route($pilih->route)}}" class="list-group-item list-group-item-action">{{$pilih->name}}</a><br>
+                        </div>
                         @endforeach
                     @endif
                 </div>

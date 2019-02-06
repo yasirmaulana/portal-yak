@@ -19,7 +19,10 @@ class ControllerPengajuanDana extends Controller
     public function index() 
     {
         $user = Auth::user()->id;
-        $pengajuandana = PengajuanDana::where('user_id', $user)->get();
+        $pengajuandana = PengajuanDana::where('user_id', $user)
+                                      ->where('statusdisetujui', '<', 5)
+                                      ->get();
+        
         return view('pengajuandana.front', compact('pengajuandana'));
         
         // $pengajuandana = PengajuanDana::latest()->paginate(5);

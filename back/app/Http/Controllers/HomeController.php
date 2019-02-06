@@ -26,8 +26,9 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $role = Auth::user()->role;
-        $menu = Menu::where('role', $role)->get();
-        return view('home', ['user' => $user], ['menu' => $menu]);
+        // $role = Auth::user()->role;
+        $menu = Menu::where('role', Auth::user()->role)->get();
+
+        return view('home', compact('user', 'menu'));
     }
 }
