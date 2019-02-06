@@ -50,7 +50,7 @@
                             @endif
                         @else
                             <li>
-                                <a id="navbarDropdown" class="nav-link" href="{{ route('home') }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link" href="{{ url('/') }}" aria-expanded="false" v-pre>
                                     Dashboard
                                 </a>
                             </li>

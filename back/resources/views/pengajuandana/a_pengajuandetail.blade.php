@@ -7,18 +7,20 @@
     <b>Nomor Pengajuan : {{$no}}</b><p>
     <b>Nama Pengaju : {{$namaPengaju[0]->name}}</b><p>
     <b>Kode Budget :</b>
-    <form action="/action_page.php" class='col-sm-4 inline'>
+    <form action="{{route('persetujuanpengajuanaccounting.update', $no)}}" class="col-md-3" method="post">
+        @csrf
+        @method('PUT')
         <div class="form-group">
-            <select class="form-control" id="sel1" name="sellist1">
+            <select class="form-control" id="kodeBudget" name="kodeBudget">
                 <option>--Pilih--</option>
                 @foreach($kodebudgets as $kodebudget)
                 <option value="{{$kodebudget->kode_budget}}">{{$kodebudget->kode_budget}} - {{$kodebudget->deskripsi}}</option>
                 @endforeach
             </select>
         </div>
+        <button type="submit" class="btn btn-success">Setuju</button>
+        <a href="{{route('persetujuanpengajuanaccounting.edit', $no)}}" class="btn btn-danger">Tolak</a><p><p>
     </form>
-    <a href="{{route('persetujuanpengajuandana.edit', 's'.$no)}}" class="btn btn-success">Setuju</a>
-    <a href="{{route('persetujuanpengajuandana.edit', 't'.$no)}}" class="btn btn-danger">Tolak</a><p><p>
     <a href="{{route('persetujuanpengajuanaccounting.index')}}">Kembali ke list</a><p>
     
     <div class="table-responsive">
@@ -40,7 +42,7 @@
                     <td>{{ number_format($detail->harga) }}</td>
                     <td>{{ number_format($detail->satuan * $detail->harga) }}</td>
                     <td>
-                        <a href="{{route('persetujuanpengajuandetail.edit', $detail->id)}}" class="btn btn-danger">Hapus</a>
+                        <a href="{{route('persetujuanpengajuandetail.edit', $detail->id)}}" class="btn btn-danger">Tolak</a>
                     </td>
                 </tr>
                 @endforeach

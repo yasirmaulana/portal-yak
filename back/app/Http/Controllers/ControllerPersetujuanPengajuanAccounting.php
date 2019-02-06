@@ -66,9 +66,11 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nomor)
     {
-        //
+        PengajuanDana::where('nomor', $nomor)->update(['statusdisetujui' => 0]);
+   
+        return redirect()->route('persetujuanpengajuanaccounting.index');
     }
 
     /**
@@ -78,9 +80,20 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $no)
     {
-        //
+        // return 'test tombol';
+        $pengajuan = PengajuanDana::where('nomor', $no);
+        // $pengajuan->progres = 'direktur';
+        // $pengajuan->statusdisetujui = 3;
+        // $pengajuan->kode_budget = $request->kodeBudget;
+        $pengajuan->update([
+            'progres' => 'direktur',
+            'statusdisetujui' => 3,
+            'kode_budget' => $request->kodeBudget
+        ]);
+
+        return redirect()->route('persetujuanpengajuanaccounting.index');
     }
 
     /**
