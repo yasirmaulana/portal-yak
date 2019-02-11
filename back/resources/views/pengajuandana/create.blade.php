@@ -8,7 +8,7 @@
     @else
         <div class="alert alert-danger col-md-12"><strong>{{$status}}</strong></div>
     @endif
-    
+
     <div class="jumbotron col-md-12">
         <b style="color:red">DISCLIMER :</b>
         <ul style="color:red">
@@ -28,7 +28,7 @@
                 <input type="hidden" name="nomor" value="{{ $no }}" >
             </div>
         </div>
-
+ 
         <div class="form-group row">
             <label class="col-md-6 col-form-label text-md-right">Pembayaran :</label>
             <div class="col-md-6">

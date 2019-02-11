@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\KodeBudget;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
+use App\Pengguna;
 use App\User;
 
 class ControllerPersetujuanPengajuanAccounting extends Controller
@@ -69,7 +70,18 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
     public function edit($nomor)
     {
         PengajuanDana::where('nomor', $nomor)->update(['statusdisetujui' => 0]);
-   
+        
+        $userid = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
+        $userid = $userid[0]->user_id;
+        $noWAPengaju = Pengguna::select('nomor_wa')->where('id', $userid)->get();
+        $noWAPengaju = $noWAPengaju[0]->nomor_wa;
+            
+        // SEND WA TO PENGAJU
+        $pesanKePengaju = '*PENGAJUAN DANA*\r\n\r\n'.
+        'Pengajuan anda telah ditolak oleh bagian Accounting.';
+
+        $this->sendWA($noWAPengaju,$pesanKePengaju);
+
         return redirect()->route('persetujuanpengajuanaccounting.index');
     }
 
@@ -82,16 +94,29 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      */
     public function update(Request $request, $no)
     {
-        // return 'test tombol';
         $pengajuan = PengajuanDana::where('nomor', $no);
-        // $pengajuan->progres = 'direktur';
-        // $pengajuan->statusdisetujui = 3;
-        // $pengajuan->kode_budget = $request->kodeBudget;
         $pengajuan->update([
             'progres' => 'direktur',
             'statusdisetujui' => 3,
             'kode_budget' => $request->kodeBudget
         ]);
+        
+        $userid = PengajuanDana::select('user_id')->where('nomor', $no)->get();
+        $userid = $userid[0]->user_id;
+        $noWAPengaju = Pengguna::select('nomor_wa')->where('id', $userid)->get();
+        $noWAPengaju = $noWAPengaju[0]->nomor_wa;
+        $noWADirektur = Pengguna::select('nomor_wa')->where('role', 'direktur')->get();
+        $noWADirektur = $noWADirektur[0]->nomor_wa;
+            
+        // SEND WA TO ACCOUNTING
+        $pesanKePengaju = '*PENGAJUAN DANA*\r\n\r\n'.
+        'Pengajuan anda telah disetujuin oleh bagian _Accounting_ dan menunggu proses selanjutnya di Direktur.';
+
+        $pesanKeDirektur = '*PENGAJUAN DANA*\r\n\r\n'.
+        'Ada sebuah pengajuan dana yang harus di proses...';
+
+        $this->sendWA($noWAPengaju,$pesanKePengaju);
+        $this->sendWA($noWADirektur,$pesanKeDirektur);
 
         return redirect()->route('persetujuanpengajuanaccounting.index');
     }
@@ -106,4 +131,39 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
     {
         //
     }
+
+
+    public function sendWA($nomorWA,$pesan)
+    {
+        // $number="6281586245143";
+        // $msg="test send wa from route with image, setting .env";
+        $img="http://www.wegeek.net/wp-content/uploads/2016/08/Aggiornamento-WhatsApp-Windows-Phone.jpg";
+
+        $number=$nomorWA;
+        $msg=$pesan;
+        $JSON_DATA ='{
+            "token": "'. env('PICKY_TOKEN') .'",
+            "priority ":0,
+            "application":"1",
+            "sleep":0,
+            "globalmessage":"'.$msg.'",
+            "globalmedia":"",
+            "data":[
+                {"number":"'.$number.'","message":""}
+            ]
+        }';
+        //--CURL FUNCTION TO CALL THE API--
+        $url = env('PICKY_URL');
+        $ch = curl_init($url);                                                                      
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $JSON_DATA);                                                                  
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+        'Content-Type: application/json', 'Content-Length: ' . strlen($JSON_DATA))); 		                                                                                                                   
+        $result = curl_exec($ch);
+    
+        // echo $number . $msg;
+
+    }
+
 }

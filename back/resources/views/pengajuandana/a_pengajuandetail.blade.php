@@ -6,7 +6,7 @@
     <h3>Detail Pengajuan Dana</h3><p>
     <b>Nomor Pengajuan : {{$no}}</b><p>
     <b>Nama Pengaju : {{$namaPengaju[0]->name}}</b><p>
-    <b>Kode Budget :</b>
+    <b>Kode COA :</b>
     <form action="{{route('persetujuanpengajuanaccounting.update', $no)}}" class="col-md-3" method="post">
         @csrf
         @method('PUT')

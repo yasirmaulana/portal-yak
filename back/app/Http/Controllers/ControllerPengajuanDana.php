@@ -139,8 +139,10 @@ class ControllerPengajuanDana extends Controller
                                 ->get();
             // $nomorWA = implode($nomorWA);
 
-            $pesan = $details;
-            // $this->sendWA($nomorWA,$pesan);
+            $pesan = '*PENGAJUAN DANA*\r\n\r\n'.
+            'Staf anda melakukan pengajuan dana dan menunggu proses selanjutnya dari anda.';
+
+            $this->sendWA($nomorWA[0]->nomor_wa,$pesan);
             
             // UPDATE SEUEN
             $updateDate = date_format(Sequence::find(1)->updated_at, 'm/Y');
@@ -158,7 +160,9 @@ class ControllerPengajuanDana extends Controller
 
             // GOT TO FRONT
             $user = Auth::user()->id;
-            $pengajuandana = PengajuanDana::where('user_id', $user)->get();
+            $pengajuandana = PengajuanDana::where('user_id', $user)
+                                        ->where('statusopen', 'y')
+                                        ->get();
     
             return view('pengajuandana.front', compact('pengajuandana'));
         } else {
