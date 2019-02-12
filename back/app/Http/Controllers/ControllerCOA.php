@@ -39,7 +39,11 @@ class ControllerCOA extends Controller
     public function store(Request $request)
     {
         $postCoa = new Coa;
-        
+        $postCoa->kode_budget = $request->kode_coa;
+        $postCoa->deskripsi = $request->deskripsi;
+        $postCoa->save();
+
+        return redirect()->route('coa.index');
     }
 
     /**
@@ -61,7 +65,9 @@ class ControllerCOA extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Coa::where('id', $id)->get();
+
+        return view('coa.edit_coa', compact('data'));
     }
 
     /**
@@ -73,7 +79,13 @@ class ControllerCOA extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $updateCoa = Coa::where('id', $id);
+        $updateCoa->update([
+            'kode_budget' => $request->kode_coa,
+            'deskripsi' => $request->deskripsi
+            ]);
+
+        return redirect()->route('coa.index');
     }
 
     /**

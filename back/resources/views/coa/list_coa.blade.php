@@ -21,7 +21,24 @@
                     <td>{{$coa->kode_budget}}</td>
                     <td>{{$coa->deskripsi}}</td>
                     <td>
-                        <a href="" class="btn btn-info">Edit</a>
+                        <a href="{{route('coa.edit', $coa->id)}}" class="btn btn-info">Edit</a>
+                        <!--Edit Modal -->
+                        <!-- <div class="modal fade" id="editModal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form action="{{route('coa.update', $coa->id)}}" method="post">
+                                            @csrf
+                                            {{$coa->id}}
+                                            <p><input type="text" class="form-control" name="kode_coa" placeholder="Kode_COA">
+                                            <p><input type="text" class="form-control" name="deskripsi" placeholder="Deskripsi">
+                                            <p><button type="submit" class="btn btn-info">Edit Data COA</button>
+                                        </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
                     </td>
                 </tr>
                 @endforeach
@@ -29,12 +46,12 @@
         </table>
     </div>
 
-    <!-- Modal -->
+    <!--Add Modal -->
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <form action="" method="post">
+                    <form action="{{route('coa.store')}}" method="post">
                         @csrf
                         <p><input type="text" class="form-control" name="kode_coa" placeholder="Kode_COA">
                         <p><input type="text" class="form-control" name="deskripsi" placeholder="Deskripsi">
@@ -45,6 +62,7 @@
             </div>
         </div>
     </div>
+
 
 </div>
 @endsection

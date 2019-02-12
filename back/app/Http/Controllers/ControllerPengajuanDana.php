@@ -88,7 +88,7 @@ class ControllerPengajuanDana extends Controller
         'Content-Type: application/json', 'Content-Length: ' . strlen($JSON_DATA))); 		                                                                                                                   
         $result = curl_exec($ch);
     
-        echo $number . $msg;
+        // echo $number . $msg;
 
     }
     /**
@@ -159,12 +159,13 @@ class ControllerPengajuanDana extends Controller
             
 
             // GOT TO FRONT
-            $user = Auth::user()->id;
-            $pengajuandana = PengajuanDana::where('user_id', $user)
-                                        ->where('statusopen', 'y')
-                                        ->get();
+            // $user = Auth::user()->id;
+            // $pengajuandana = PengajuanDana::where('user_id', $user)
+            //                             ->where('statusopen', 'y')
+            //                             ->get();
     
-            return view('pengajuandana.front', compact('pengajuandana'));
+            // return view('pengajuandana.front', compact('pengajuandana'));
+            return redirect()->route('pengajuan.index');
         } else {
 
             $no = $this->createNumber();
