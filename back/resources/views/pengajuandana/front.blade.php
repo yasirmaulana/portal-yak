@@ -17,7 +17,7 @@
                     <th>Proses</th>
                     <th>Action</th>
                 </tr>
-            </thead>
+            </thead> 
             <tbody>
                 @foreach($pengajuandana as $detail) 
                 <tr>

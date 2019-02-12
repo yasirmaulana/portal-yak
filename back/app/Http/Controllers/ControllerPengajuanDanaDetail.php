@@ -37,7 +37,9 @@ class ControllerPengajuanDanaDetail extends Controller
      */
     public function store(Request $request)
     {
-        
+        // $no = $request->nomor;
+        // $pengaju = Auth::user();
+        // $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();        
         // if($request->item !== '' or $request->satuan !== '' or $request->harga !== ''){
         if (!($request->item == NULL or $request->satuan == NULL or $request->harga == NULL)) {
             
@@ -52,14 +54,16 @@ class ControllerPengajuanDanaDetail extends Controller
             $post->save();
             
             $no = $request->nomor;
+            $pengaju = Auth::user();
             $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
             
-            return view('pengajuandana.create', compact('no', 'details'))->with('status', '');
+            return view('pengajuandana.create', compact('no', 'pengaju', 'details'))->with('status', '');
         } else {
             $no = $request->nomor;
+            $pengaju = Auth::user();
             $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
 
-            return view('pengajuandana.create', compact('no', 'details'))->with('status', 'semua field wajib diisi');
+            return view('pengajuandana.create', compact('no', 'pengaju', 'details'))->with('status', 'semua field wajib diisi');
         }
             
     }

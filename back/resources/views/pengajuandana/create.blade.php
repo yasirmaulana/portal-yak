@@ -22,7 +22,7 @@
     <form method="post" action="{{route('pengajuan.store')}}">
         @csrf
         <div class="form-group row"> 
-            <label class="col-md-6 col-form-label text-md-right">Nomor :</label>
+            <label class="col-md-3 col-form-label text-md-right">Nomor :</label>
             <div class="col-md-6">
                 <input type="text" class="form-control" name="no" value="{{ $no }}" disabled style="border: 0;background: none;">
                 <input type="hidden" name="nomor" value="{{ $no }}" >
@@ -30,40 +30,42 @@
         </div>
  
         <div class="form-group row">
-            <label class="col-md-6 col-form-label text-md-right">Pembayaran :</label>
+            <label class="col-md-3 col-form-label text-md-right">Pembayaran :</label>
             <div class="col-md-6">
                 <div class="radio col-form-label ">
-                    <label class="radio-inline"><input type="radio" name="pembayaran" value="c">Cash  &nbsp &nbsp</label>
-                    <label class="radio-inline"><input type="radio" name="pembayaran" value="t">Transfer</label>
+                    <label class="radio-inline"><input type="radio" name="pembayaran" value="c" onclick="javascript:cashtransferOpt();">Cash  &nbsp &nbsp</label>
+                    <label class="radio-inline"><input type="radio" name="pembayaran" value="t" onclick="javascript:cashtransferOpt();" id="transferCheck">Transfer</label>
                 </div>
             </div>
         </div>
 
-        <div class="form-group row">
-            <label class="col-md-6 col-form-label text-md-right">Nomor Rekening Transfer :</label>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="nomor_rekening">
+        <div id="detail" style="display:none">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label text-md-right">Nomor Rekening Transfer :</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="nomor_rekening" value="{{$pengaju->nomor_rekening}}" id="norek">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-md-6 col-form-label text-md-right">Nama Bank :</label>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="bank">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label text-md-right">Nama Bank :</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="bank" value="{{$pengaju->bank}}">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-md-6 col-form-label text-md-right">a/n Rekening :</label>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="atas_nama">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label text-md-right">a/n Rekening :</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="atas_nama" value="{{$pengaju->atas_nama}}">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label class="col-md-6 col-form-label text-md-right">Email :</label>
-            <div class="col-md-6">
-                <input type="text" class="form-control" name="email">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label text-md-right">Email :</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" name="email" value="{{$pengaju->email}}">
+                </div>
             </div>
         </div>
 
@@ -76,7 +78,7 @@
         <input type="hidden" name="statusdisetujui" value=1>
         <input type="hidden" name="statusopen" value="y">
         <div class="form-group row">
-            <label class="col-md-6 col-form-label text-md-right"></label>
+            <label class="col-md-3 col-form-label text-md-right"></label>
             <div class="col-md-6">
                 <button class="btn btn-success">Ajukan</button>
                 <a href="{{route('pengajuan.index')}}" class="btn btn-warning">Batal</a>
@@ -145,5 +147,15 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+
+function cashtransferOpt(){
+    if (document.getElementById('transferCheck').checked) {
+        document.getElementById('detail').style.display = 'block';
+    }
+    else document.getElementById('detail').style.display = 'none';
+}
+</script>
 
 @endsection
