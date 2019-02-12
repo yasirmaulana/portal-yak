@@ -9,6 +9,7 @@
                     <th>Tanggal Pengajuan</th>
                     <th>Nomor</th>
                     <th>Pembayaran</th>
+                    <th>Nama Bank</th>
                     <th>No Rekening</th>
                     <th>Atas Nama</th>
                     <th>Email</th>
@@ -27,6 +28,7 @@
                             Cash
                         @endif
                     </td>
+                    <td>{{$detail->bank}}</td>
                     <td>{{$detail->nomor_rekening}}</td>
                     <td>{{$detail->atas_nama}}</td>
                     <td>{{$detail->email}}</td>
