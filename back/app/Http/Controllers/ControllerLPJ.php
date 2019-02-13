@@ -54,7 +54,8 @@ class ControllerLPJ extends Controller
     public function show($nomor)
     {
         $no = $nomor;
-        $details = PengajuanDanaDetail::where('nomor', $nomor)->get();
+        $details = PengajuanDanaDetail::where('nomor', $nomor)
+                        ->where('statusditolak', 0)->get();
         
         return view('lpj.s_lpjdetail', compact('no', 'details'));
     }
@@ -65,9 +66,15 @@ class ControllerLPJ extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($nomor)
     {
-        //
+        $editPengajuan = PengajuanDana::where('nomor', $nomor)
+                ->update([
+                    'statusdisetujui' => 6,
+                    'progres' => 'kasir'
+                ]);
+
+        return redirect()->route('lpj.index');
     }
 
     /**
@@ -79,7 +86,15 @@ class ControllerLPJ extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $editPengajuanDetail = PengajuanDanaDetail::where('id', $id)
+                ->update([
+                    'realisasi' => $request->realisasi
+                ]);
+        
+        $nomor = $request->nomor;
+
+        return redirect()->route('lpj.show', $nomor);
+        // return 'hahahhahh';
     }
 
     /**

@@ -4,8 +4,33 @@
     <h3>Detail Pengajuan Dana</h3><p>
     <b>Nomor Pengajuan : {{$no}}</b><p>
     <b>Nama Pengaju : {{$namaPengaju[0]->name}}</b><p>
-    <b>Sudah ditransfer / serahkan : </b>
-    <a href="{{route('listkasir.edit', $no)}}">Sudah</a> | 
+
+    <a href="" class="btn btn-success" data-toggle="modal" data-target="#myModal">Set Jatuh Tempo LPJ</a>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form action="{{route('listkasir.update', $no)}}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <b>Tanggal Jatuh Tempo LPJ :</b><p>
+                        <p><input type="date" class="col-md-4 form-control" name="jtLPJ">
+                        <p><button type="submit" class="btn btn-success">Set Jatuh Tempo LPJ</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <b>Tanggal Jatuh Tempo LPJ :</b>
+    <form action="{{route('listkasir.update', $no)}}" mehtod="post">
+        @csrf
+        @method('PUT')
+        <input type="date" class="col-md-3 form-control" name="jtLPJ"><p><p>
+        <button type="submit" class="btn btn-success">Set Jatuh Tempo</button>
+    </form> -->
+
     <a href="{{route('listkasir.index')}}">Kembali ke list</a><p>
     
     <div class="table-responsive">

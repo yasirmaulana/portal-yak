@@ -65,9 +65,11 @@ class ControllerListKasir extends Controller
      */
     public function edit($nomor)
     {
-        PengajuanDana::where('nomor', $nomor)->update(['progres' => 'kasir', 'statusdisetujui' => 5]);
+        // PengajuanDana::where('nomor', $nomor)->update(['progres' => 'kasir', 'statusdisetujui' => 5]);
 
-        return redirect()->route('listkasir.index');
+        // return redirect()->route('listkasir.index');
+        return 'test doang coy';
+
     }
 
     /**
@@ -77,9 +79,15 @@ class ControllerListKasir extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $no)
     {
-        //
+        PengajuanDana::where('nomor', $no)
+            ->update([
+                'jatuh_tempo_lpj' => $request->jtLPJ,
+                'statusdisetujui' => 5
+            ]);
+
+        return redirect()->route('listkasir.index');
     }
 
     /**
