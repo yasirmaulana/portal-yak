@@ -68,6 +68,9 @@ class Kernel extends HttpKernel
         'roledirektur' => \App\Http\Middleware\RoleDirektur::class,
         'rolekasir' => \App\Http\Middleware\RoleKasir::class,
         'roleviewlpj' => \App\Http\Middleware\RoleViewLpj::class,
+        'rolekasircash' => \App\Http\Middleware\RoleKasirCash::class,
+        'rolekasirtransfer' => \App\Http\Middleware\RoleKasirTransfer::class,
+
     ];
 
     /**

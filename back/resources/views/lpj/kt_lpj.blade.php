@@ -13,11 +13,10 @@
                     <th>No Rekening</th>
                     <th>Atas Nama</th>
                     <th>Email</th>
-                    <th>Tgl Jatuh Tempo LPJ</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody> 
+            <tbody>  
                 @foreach($details as $detail)
                 <tr>
                     <td>{{$detail->created_at}}</td>
@@ -33,9 +32,8 @@
                     <td>{{$detail->nomor_rekening}}</td>
                     <td>{{$detail->atas_nama}}</td>
                     <td>{{$detail->email}}</td>
-                    <td>{{$detail->jatuh_tempo_lpj}}</td>
                     <td>
-                        <a href="{{route('lpj.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
+                        <a href="{{route('ktlpj.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
                     </td>
                 </tr>
                 @endforeach

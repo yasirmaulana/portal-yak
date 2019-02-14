@@ -42,10 +42,10 @@ class ControllerPengajuanDana extends Controller
         
         if ($datenow == $updateDate) {
             $seq = $seq + 1;
-            $no = Auth::user()->divisi . date_format(now(), 'ym') . $seq;
+            $no = Auth::user()->initial_divisi . date_format(now(), 'ym') . $seq;
         } else {
             $seq = 1;
-            $no =  Auth::user()->divisi . date_format(now(), 'ym') . $seq;
+            $no =  Auth::user()->initial_divisi . date_format(now(), 'ym') . $seq;
         }
 
         return $no;

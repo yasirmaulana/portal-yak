@@ -7,18 +7,20 @@ use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\User;
 
-class ControllerListKasir extends Controller
+class ControllerKasirCash extends Controller
 {
-    /** 
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $details = PengajuanDana::where('statusdisetujui', 4)->get();
+        $details = PengajuanDana::where('statusdisetujui', 4)
+                                ->where('pembayaran', 'c')
+                                ->get();
         
-        return view('pengajuandana.list_pengajuan', compact('details'));
+        return view('pengajuandana.list_pengajuan_cash', compact('details'));
     }
 
     /**
@@ -55,7 +57,7 @@ class ControllerListKasir extends Controller
         $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
         $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
 
-        return view('pengajuandana.list_pengajuandetail', compact('no', 'namaPengaju', 'details'));
+        return view('pengajuandana.list_pengajuandetail_cash', compact('no', 'namaPengaju', 'details'));
     }
 
     /**
@@ -64,7 +66,7 @@ class ControllerListKasir extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($nomor)
+    public function edit($id)
     {
         //
     }
@@ -79,12 +81,12 @@ class ControllerListKasir extends Controller
     public function update(Request $request, $no)
     {
         PengajuanDana::where('nomor', $no)
-            ->update([
-                'jatuh_tempo_lpj' => $request->jtLPJ,
-                'statusdisetujui' => 5
-            ]);
+        ->update([
+            'jatuh_tempo_lpj' => $request->jtLPJ,
+            'statusdisetujui' => 5
+        ]);
 
-        return redirect()->route('listkasir.index');
+    return redirect()->route('kasircash.index');
     }
 
     /**
