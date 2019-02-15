@@ -32,6 +32,7 @@ Route::resource('klpj', 'ControllerKasirLPJ')->middleware(['auth', 'rolekasir'])
 Route::resource('kclpj', 'ControllerKasirCashLPJ')->middleware(['auth', 'rolekasircash']);
 Route::resource('ktlpj', 'ControllerKasirTransferLPJ')->middleware(['auth', 'rolekasirtransfer']);
 
+Route::resource('pattycash', 'ControllerKasirReport')->middleware(['auth', 'rolekasir']);
 
 Route::resource('coa', 'ControllerCOA')->middleware(['auth', 'roleaccounting']);
 
@@ -42,15 +43,15 @@ Route::resource('coa', 'ControllerCOA')->middleware(['auth', 'roleaccounting']);
 
 //     return $post;
 // });
-// Route::get('/addmenu', function () {
-//     $post = new Menu;
-//     $post->name = 'Daftar Pengajuan Dana';
-//     $post->role = 'kasirtransfer';
-//     $post->route = 'kctash.index';
-//     $post->save();
+Route::get('/addmenu', function () {
+    $post = new Menu;
+    $post->name = 'Laporan Patty Cash';
+    $post->role = 'kasir';
+    $post->route = 'pattycash.index';
+    $post->save();
 
-//     return $post;
-// });
+    return $post;
+});
 // Route::get('/addkodebudget', function () {
 //     $post= new KodeBudget;
 //     $post->kode_budget = '002';
