@@ -28,7 +28,14 @@
                 <input type="hidden" name="nomor" value="{{ $no }}" >
             </div>
         </div>
- 
+
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label text-md-right">Tujuan Pengajuan :</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="tujuan">
+            </div>
+        </div>
+
         <div class="form-group row">
             <label class="col-md-3 col-form-label text-md-right">Pembayaran :</label>
             <div class="col-md-6">
@@ -81,7 +88,7 @@
             <label class="col-md-3 col-form-label text-md-right"></label>
             <div class="col-md-6">
                 <button class="btn btn-success">Ajukan</button>
-                <a href="{{route('pengajuan.index')}}" class="btn btn-warning">Batal</a>
+                <a href="{{route('pengajuan.destroy', $no)}}" class="btn btn-warning">Batal</a>
             </div>
         </div>
     </form>
@@ -141,6 +148,12 @@
                         </td>
                     </tr>
                     @endforeach
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><b>TOTAL</b></td>
+                        <td>{{$total}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

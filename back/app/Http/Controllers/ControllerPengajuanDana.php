@@ -25,9 +25,6 @@ class ControllerPengajuanDana extends Controller
         
         return view('pengajuandana.front', compact('pengajuandana'));
         
-        // $pengajuandana = PengajuanDana::latest()->paginate(5);
-        // return view('pengajuandana.front', compact('pengajuandana'))
-        //         ->with('i', (request()->input('page',1) -1)*5);
     }
     
     /**
@@ -56,8 +53,9 @@ class ControllerPengajuanDana extends Controller
         $no = $this->createNumber();
         $pengaju = Auth::user();
         $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
+        $total = '';
 
-        return view('pengajuandana.create', compact('no', 'pengaju', 'details'))->with('status', '');
+        return view('pengajuandana.create', compact('no', 'pengaju', 'details', 'total'))->with('status', '');
     }
     
     public function sendWA($nomorWA,$pesan)
@@ -104,16 +102,17 @@ class ControllerPengajuanDana extends Controller
         $pengaju = Auth::user();
         $pembayaran = $request->pembayaran;
         $details = PengajuanDanaDetail::where('nomor', $no)->get();
-        
+        $total = PengajuanDanaDetail::where('nomor', $no)
+                                        ->sum('total');
         // CEK INPUTAN PEMBAYARAN
-        if  (empty($pembayaran)) {
-            return view('pengajuandana.create', compact('no', 'pengaju', 'details'))->with('status', 'Input Pembayaran harus diisi!!!');
+        if  (empty($pembayaran) or empty($request->tujuan)) {
+            return view('pengajuandana.create', compact('no', 'pengaju', 'details', 'total'))->with('status', 'Input Tujuan atau Pembayaran harus diisi!!!');
             // return redirect()->route('pengajuan.create')->with('status', 'Input Pembayaran harus diisi!!!');
         }
 
         if ($pembayaran == 't') {
             if (empty($request->nomor_rekening) or empty($request->bank) or empty($request->atas_nama) or empty($request->email)) {
-                return view('pengajuandana.create', compact('no', 'pengaju', 'details'))->with('status', 'Nomor rekening, nama bank, a/n dan email tidak boleh kosong!!!');
+                return view('pengajuandana.create', compact('no', 'pengaju', 'details', 'total'))->with('status', 'Nomor rekening, nama bank, a/n dan email tidak boleh kosong!!!');
                 // return redirect()->route('pengajuan.create')->with('status', 'Nomor rekening, nama bank, a/n dan email tidak boleh kosong!!!');
             }
         }
@@ -122,6 +121,7 @@ class ControllerPengajuanDana extends Controller
         if (count($details)>0) {
             $post = new PengajuanDana;
             $post->user_id = $request->user_id;
+            $post->tujuan = $request->tujuan;
             $post->pembayaran = $request->pembayaran;
 
             if ($request->pembayaran == 't') {
@@ -225,8 +225,11 @@ class ControllerPengajuanDana extends Controller
      */
     public function destroy($nomor)
     {
-        $deletePengajuan = PengajuanDana::where('nomor', $nomor);
-        $deletePengajuan->delete();
+        $cek = PengajuanDana::where('nomor', $nomor)->get();
+        if($cek[0]->nomor <> '') {
+            $deletePengajuan = PengajuanDana::where('nomor', $nomor);
+            $deletePengajuan->delete();
+        }
 
         $deletePengajuanDetail = PengajuanDanaDetail::where('nomor', $nomor);
         $deletePengajuanDetail->delete();

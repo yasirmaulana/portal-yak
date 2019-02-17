@@ -6,6 +6,7 @@ use Auth;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use Illuminate\Http\Request;
+use DB;
 
 class ControllerPengajuanDanaDetail extends Controller
 {
@@ -50,14 +51,17 @@ class ControllerPengajuanDanaDetail extends Controller
             $post->item = $request->item;
             $post->satuan = $request->satuan;
             $post->harga = $request->harga;
+            $post->total = $request->satuan * $request->harga;
             
             $post->save();
             
             $no = $request->nomor;
             $pengaju = Auth::user();
             $details = PengajuanDanaDetail::where('user_id', Auth::user()->id)->where('nomor', $no)->get();
-            
-            return view('pengajuandana.create', compact('no', 'pengaju', 'details'))->with('status', '');
+            $total = PengajuanDanaDetail::where('nomor', $no)
+                                        ->sum('total');
+
+            return view('pengajuandana.create', compact('no', 'pengaju', 'details', 'total'))->with('status', '');
         } else {
             $no = $request->nomor;
             $pengaju = Auth::user();
