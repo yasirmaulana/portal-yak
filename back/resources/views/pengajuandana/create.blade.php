@@ -19,6 +19,12 @@
         </ul>
     </div>
 
+    <form action="{{route('pengajuan.destroy', $no)}}" method="post" class="text-md-right">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-warning">Batal, kembali ke list</button>
+    </form>
+
     <form method="post" action="{{route('pengajuan.store')}}">
         @csrf
         <div class="form-group row"> 
@@ -88,7 +94,6 @@
             <label class="col-md-3 col-form-label text-md-right"></label>
             <div class="col-md-6">
                 <button class="btn btn-success">Ajukan</button>
-                <a href="{{route('pengajuan.destroy', $no)}}" class="btn btn-warning">Batal</a>
             </div>
         </div>
     </form>
@@ -153,6 +158,7 @@
                         <td></td>
                         <td><b>TOTAL</b></td>
                         <td>{{$total}}</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>

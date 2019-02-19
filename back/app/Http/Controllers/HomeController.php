@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Menu;
+use App\PengajuanDana;
+use App\DivisiDetail;
 
 class HomeController extends Controller
 {
@@ -27,7 +29,13 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $menu = Menu::where('role', Auth::user()->role)->get();
+        $div = DivisiDetail::select('divisi')
+                           ->where('user_id', Auth::user()->id)
+                           ->get();
+        $jmlPengajuan = PengajuanDana::where('progres', Auth::user()->role)
+                                     ->whereIn('divisi', $div)
+                                     ->count(); 
 
-        return view('home', compact('user', 'menu'));
+        return view('home', compact('user', 'menu', 'jmlPengajuan'));
     }
 }

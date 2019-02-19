@@ -6,6 +6,7 @@ use App\Menu;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\KodeBudget;
+use App\DivisiDetail;
 
 Auth::routes();
 
@@ -43,11 +44,20 @@ Route::resource('coa', 'ControllerCOA')->middleware(['auth', 'roleaccounting']);
 
 //     return $post;
 // });
-Route::get('/addmenu', function () {
-    $post = new Menu;
-    $post->name = 'Laporan Patty Cash';
-    $post->role = 'kasir';
-    $post->route = 'pattycash.index';
+// Route::get('/addmenu', function () {
+//     $post = new Menu;
+//     $post->name = 'Laporan Patty Cash';
+//     $post->role = 'kasir';
+//     $post->route = 'pattycash.index';
+//     $post->save();
+
+//     return $post;
+// });
+Route::get('/adddivisi', function () {
+    $post = new DivisiDetail;
+    $post->divisi = 'CRM';
+    $post->initial = 'CR';
+    $post->user_id = 1;
     $post->save();
 
     return $post;

@@ -226,7 +226,8 @@ class ControllerPengajuanDana extends Controller
     public function destroy($nomor)
     {
         $cek = PengajuanDana::where('nomor', $nomor)->get();
-        if($cek[0]->nomor <> '') {
+        if(sizeof($cek) == 0 ) {
+        } else {
             $deletePengajuan = PengajuanDana::where('nomor', $nomor);
             $deletePengajuan->delete();
         }
@@ -235,5 +236,6 @@ class ControllerPengajuanDana extends Controller
         $deletePengajuanDetail->delete();
 
         return redirect()->route('pengajuan.index');
+
     }
 }

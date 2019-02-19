@@ -7,21 +7,24 @@
             <thead>
                 <tr>
                     <th>Tanggal Pengajuan</th>
+                    <th>Divisi</th>
                     <th>Nomor</th>
                     <th>Pembayaran</th>
                     <th>Nama Bank</th>
                     <th>No Rekening</th>
                     <th>Atas Nama</th>
                     <th>Email</th>
-                    <!-- <th>Total</th> -->
-                    <th>Action</th>
+                    <th>Total Pengajuan</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody> 
                 @foreach($data as $detail)
                 <tr>
                     <td>{{$detail->created_at}}</td>
-                    <td>{{$detail->nomor}}</td>
+                    <td>{{$detail->divisi}}</td>
+                    <td>
+                        <a href="{{route('persetujuanpengajuandana.show', $detail->nomor)}}">{{$detail->nomor}}</a>
+                    </td>
                     <td>
                         @if($detail->pembayaran == 't')
                             Transfer
@@ -33,12 +36,7 @@
                     <td>{{$detail->nomor_rekening}}</td>
                     <td>{{$detail->atas_nama}}</td>
                     <td>{{$detail->email}}</td>
-                    <!-- <td>Rp. ???</td> -->
-                    <td>
-                        <a href="{{route('persetujuanpengajuandana.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
-                        <!-- <a href="{{route('persetujuanpengajuandana.edit', 's'.$detail->nomor)}}" class="btn btn-success">Setuju</a> -->
-                        <!-- <a href="{{route('persetujuanpengajuandana.edit', 't'.$detail->nomor)}}" class="btn btn-danger">Tolak</a> -->
-                    </td>
+                    <td>Rp. {{number_format($detail->total)}}</td>
                 </tr>
                 @endforeach
             </tbody>

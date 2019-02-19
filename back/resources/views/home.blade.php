@@ -14,7 +14,16 @@
                     @else
                         @foreach($menu as $pilih)
                         <div class="list-group">
-                            <a href="{{route($pilih->route)}}" class="list-group-item list-group-item-action">{{$pilih->name}}</a><br>
+                            <a href="{{route($pilih->route)}}" class="list-group-item list-group-item-action">{{$pilih->name}}
+                                @switch($pilih->name)
+                                    @case('Persetujuan Pengajuan Dana')
+                                            @if($jmlPengajuan>0)
+                                                <span class="badge badge-pill badge-danger">{{$jmlPengajuan}}</span>
+                                            @endif
+                                        @break
+                                @endswitch
+                            </a>
+                            <br>
                         </div>
                         @endforeach
                     @endif

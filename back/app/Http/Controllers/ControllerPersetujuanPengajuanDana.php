@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\VPengajuanDana;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\User;
 use App\Pengguna;
+use App\DivisiDetail;
 use Auth;
+use DB;
 
 class ControllerPersetujuanPengajuanDana extends Controller
 {
@@ -18,11 +21,16 @@ class ControllerPersetujuanPengajuanDana extends Controller
      */
     public function index()
     {
-        $data = PengajuanDana::where('progres', 'manager')
-                             ->where('statusdisetujui', 1)
-                             ->where('divisi', Auth::user()->divisi)
-                             ->get();
-        return view('pengajuandana.m_pengajuan', ['data' => $data]);
+        $div = DivisiDetail::select('divisi')
+                           ->where('user_id', Auth::user()->id)
+                           ->get();
+
+        $data = VPengajuanDana::where('progres', 'manager')
+                                ->where('statusdisetujui', 1)
+                                ->whereIn('divisi', $div)
+                                ->get();
+
+        return view('pengajuandana.m_pengajuan', compact('data')); 
     }
 
     /**
