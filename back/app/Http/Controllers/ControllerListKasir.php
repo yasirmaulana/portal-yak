@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\User;
+use App\VPengajuanDana;
+use App\KodeBudget;
+use Auth;
 
 class ControllerListKasir extends Controller
 {
@@ -14,11 +17,21 @@ class ControllerListKasir extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
-        $details = PengajuanDana::where('statusdisetujui', 4)->get();
+        // $details = PengajuanDana::where('statusdisetujui', 4)->get();
         
-        return view('pengajuandana.list_pengajuan', compact('details'));
+        // return view('pengajuandana.list_pengajuan', compact('details'));
+
+        $jmlPengajuan = VPengajuanDana::where('progres', 'kasir')
+                                    ->where('statusdisetujui', 4)
+                                    ->sum('total');
+
+        $details = VPengajuanDana::where('progres', 'kasir')
+                                    ->where('statusdisetujui', 4)
+                                    ->get();
+
+        return view('pengajuandana.list_pengajuan', compact('jmlPengajuan', 'details'));
     }
 
     /**
@@ -48,14 +61,30 @@ class ControllerListKasir extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($nomor)
+    public function show($no)
     {
-        $no = $nomor;
-        $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
-        $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
-        $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
+        // $no = $nomor;
+        // $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
+        // $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
+        // $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
 
-        return view('pengajuandana.list_pengajuandetail', compact('no', 'namaPengaju', 'details'));
+        // return view('pengajuandana.list_pengajuandetail', compact('no', 'namaPengaju', 'details'));
+
+
+        $userId = PengajuanDana::select('user_id')
+                               ->where('nomor', $no)
+                               ->get();
+        $namaPengaju = User::select('name')
+                           ->where('id', $userId[0]->user_id)
+                           ->get();
+        $pengajuandana = PengajuanDana::where('nomor', $no)
+                                      ->get();
+        $details = PengajuanDanaDetail::where('nomor', $no)
+                                      ->where('statusditolak', 0)
+                                      ->get();
+        $kodebudgets = KodeBudget::all(); 
+
+        return view('pengajuandana.list_pengajuandetail', compact('no', 'namaPengaju', 'pengajuandana', 'details', 'kodebudgets'));
     }
 
     /**
@@ -81,7 +110,8 @@ class ControllerListKasir extends Controller
         PengajuanDana::where('nomor', $no)
             ->update([
                 'jatuh_tempo_lpj' => $request->jtLPJ,
-                'statusdisetujui' => 5
+                'statusdisetujui' => 5,
+                'kasir' => Auth::user()->name
             ]);
 
         return redirect()->route('listkasir.index');

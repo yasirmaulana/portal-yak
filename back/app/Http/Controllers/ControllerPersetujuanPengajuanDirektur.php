@@ -91,7 +91,7 @@ class ControllerPersetujuanPengajuanDirektur extends Controller
     public function edit($nomor)
     {
         $cek = substr($nomor,0,1);
-        $no = substr($nomor,1,8);
+        $no = substr($nomor,1,9);
         // return $cek;
         if($cek == 's') {
             PengajuanDana::where('nomor', $no)->update(['progres' => 'kasir', 'statusdisetujui' => 4]);

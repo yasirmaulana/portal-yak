@@ -18,13 +18,13 @@
             <li>batas pengajuan</li>
         </ul>
     </div>
-
-    <form action="{{route('pengajuan.destroy', $no)}}" method="post" class="text-md-right">
+    
+    <form action="{{route('pengajuan.destroy', $no)}}" method="post">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn btn-warning">Batal, kembali ke list</button>
+        <button type="submit" class="btn btn-link" class="text-md-right">x Batal > kembali ke list</button>
     </form>
-
+    
     <form method="post" action="{{route('pengajuan.store')}}">
         @csrf
         <div class="form-group row"> 
@@ -98,11 +98,10 @@
         </div>
     </form>
     
+
     <!-- FORMULIR PENGAJUAN DANA DETAIL -->
     <div class="col-md-8">
-        <a href="" data-toggle="modal" data-target="#myModal">
-            + tambah detail
-        </a>
+        <a href="" data-toggle="modal" data-target="#myModal">+ Tambah detail</a>
         <!-- Modal -->
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">

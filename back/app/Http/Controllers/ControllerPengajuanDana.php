@@ -7,6 +7,7 @@ use App\Sequence;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\Pengguna;
+use App\DivisiDetail;
 use Auth;
 
 class ControllerPengajuanDana extends Controller
@@ -34,15 +35,24 @@ class ControllerPengajuanDana extends Controller
      */
     public function createNumber(){
         $seq = Sequence::find(1)->no;
-        $updateDate = date_format(Sequence::find(1)->updated_at, 'y');
-        $datenow = date_format(now(), 'y');
-        
+        $updateDate = date_format(Sequence::find(1)->updated_at, 'ym');
+        $datenow = date_format(now(), 'ym');
+        $initialDivisi = DivisiDetail::select('initial')->where('user_id', Auth::user()->id)->get();
         if ($datenow == $updateDate) {
             $seq = $seq + 1;
-            $no = Auth::user()->initial_divisi . date_format(now(), 'ym') . $seq;
+            if(strlen(strval($seq))==1){
+                $seq = '00' . $seq;
+            }
+            elseif(strlen(strval($seq))==2){
+                $seq = '0' . $seq;
+            }
+            else{
+                $seq = $seq;
+            }
+            $no = $initialDivisi[0]->initial . date_format(now(), 'ym') . $seq;
         } else {
-            $seq = 1;
-            $no =  Auth::user()->initial_divisi . date_format(now(), 'ym') . $seq;
+            $seq = '00' . 1;
+            $no =  $initialDivisi[0]->initial . date_format(now(), 'ym') . $seq;
         }
 
         return $no;
@@ -104,6 +114,8 @@ class ControllerPengajuanDana extends Controller
         $details = PengajuanDanaDetail::where('nomor', $no)->get();
         $total = PengajuanDanaDetail::where('nomor', $no)
                                         ->sum('total');
+        $divisi = DivisiDetail::where('user_id', Auth::user()->id)->get();
+
         // CEK INPUTAN PEMBAYARAN
         if  (empty($pembayaran) or empty($request->tujuan)) {
             return view('pengajuandana.create', compact('no', 'pengaju', 'details', 'total'))->with('status', 'Input Tujuan atau Pembayaran harus diisi!!!');
@@ -135,7 +147,7 @@ class ControllerPengajuanDana extends Controller
             $post->progres = $request->progres;
             $post->statusdisetujui = $request->statusdisetujui;
             $post->statusopen = $request->statusopen;
-            $post->divisi = Auth::user()->divisi;
+            $post->divisi = $divisi[0]->initial;
             $post->save();
     
             

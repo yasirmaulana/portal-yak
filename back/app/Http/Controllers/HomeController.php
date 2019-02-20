@@ -33,7 +33,12 @@ class HomeController extends Controller
                            ->where('user_id', Auth::user()->id)
                            ->get();
         
-        if(Auth::user()->role == 'manager') {
+        if(Auth::user()->role == 'standar') {
+            $jmlPengajuan = PengajuanDana::where('user_id', Auth::user()->id)
+                                         ->whereIn('statusdisetujui', [1,2,3,4])
+                                         ->count(); 
+        }
+        elseif(Auth::user()->role == 'manager') {
             $jmlPengajuan = PengajuanDana::where('progres', Auth::user()->role)
                                          ->whereIn('divisi', $div)
                                          ->count(); 

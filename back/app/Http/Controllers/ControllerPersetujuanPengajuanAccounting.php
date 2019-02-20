@@ -17,7 +17,7 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
         $jmlPengajuan = VPengajuanDana::where('progres', 'accounting')
                                       ->where('statusdisetujui', 2)
