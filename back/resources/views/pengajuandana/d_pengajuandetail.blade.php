@@ -4,7 +4,15 @@
     <h3>Detail Pengajuan Dana</h3><p>
     <b>Nomor Pengajuan : {{$no}}</b><p>
     <b>Nama Pengaju : {{$namaPengaju[0]->name}}</b><p>
-    <a href="{{route('persetujuanpengajuandirektur.edit', 's'.$no)}}" class="btn btn-success">Setuju</a>
+    
+    @if($pengajuandana[0]->pembayaran == 't')
+    <b>Nama Bank : {{$pengajuandana[0]->bank}}</b><p>
+    <b>Nomor Rekening : {{$pengajuandana[0]->nomor_rekening}}</b><p>
+    <b>Atas Nama : {{$pengajuandana[0]->atas_nama}}</b><p>
+    <b>Email : {{$pengajuandana[0]->email}}</b><p>
+    @endif
+
+    <a href="{{route('persetujuanpengajuandirektur.edit', 's'.$no)}}" class="btn btn-success">Setuju</a> 
     <a href="{{route('persetujuanpengajuandirektur.edit', 't'.$no)}}" class="btn btn-danger">Tolak</a><p><p>
     <a href="{{route('persetujuanpengajuandirektur.index')}}">Kembali ke list</a><p>
     

@@ -8,6 +8,7 @@ use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\Pengguna;
 use App\User;
+use App\VPengajuanDana;
 
 class ControllerPersetujuanPengajuanAccounting extends Controller
 {
@@ -18,9 +19,15 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      */
     public function index()
     {
-        $details = PengajuanDana::where('statusdisetujui', 2)->get();
-        $kodebudgets = KodeBudget::all(); 
-        return view('pengajuandana.a_pengajuan', compact('details', 'kodebudgets'));
+        $jmlPengajuan = VPengajuanDana::where('progres', 'accounting')
+                                      ->where('statusdisetujui', 2)
+                                      ->sum('total');
+
+        $details = VPengajuanDana::where('progres', 'accounting')
+                            ->where('statusdisetujui', 2)
+                            ->get();
+
+        return view('pengajuandana.a_pengajuan', compact('jmlPengajuan', 'details'));
     }
 
     /**
@@ -50,15 +57,22 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($nomor)
+    public function show($no)
     {
-        $no = $nomor;
-        $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
-        $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
-        $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
+        $userId = PengajuanDana::select('user_id')
+                               ->where('nomor', $no)
+                               ->get();
+        $namaPengaju = User::select('name')
+                           ->where('id', $userId[0]->user_id)
+                           ->get();
+        $pengajuandana = PengajuanDana::where('nomor', $no)
+                                      ->get();
+        $details = PengajuanDanaDetail::where('nomor', $no)
+                                      ->where('statusditolak', 0)
+                                      ->get();
         $kodebudgets = KodeBudget::all(); 
 
-        return view('pengajuandana.a_pengajuandetail', compact('no', 'namaPengaju', 'details', 'kodebudgets'));
+        return view('pengajuandana.a_pengajuandetail', compact('no', 'namaPengaju', 'pengajuandana', 'details', 'kodebudgets'));
     }
 
     /**
@@ -94,11 +108,17 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
      */
     public function update(Request $request, $no)
     {
+        if($request->kodeBudget == '--Pilih--' or $request->tglTransfer == ''){
+            return redirect()->route('persetujuanpengajuanaccounting.show', $no);
+        }
+
         $pengajuan = PengajuanDana::where('nomor', $no);
         $pengajuan->update([
             'progres' => 'direktur',
             'statusdisetujui' => 3,
-            'kode_budget' => $request->kodeBudget
+            'kode_budget' => $request->kodeBudget,
+            'tgl_transfer' => $request->tglTransfer,
+            'catatan_accounting' => $request->catatan
         ]);
         
         $userid = PengajuanDana::select('user_id')->where('nomor', $no)->get();

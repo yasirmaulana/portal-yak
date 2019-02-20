@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\User;
+use App\VPengajuanDana;
 
 class ControllerPersetujuanPengajuanDirektur extends Controller
 {
@@ -16,8 +17,18 @@ class ControllerPersetujuanPengajuanDirektur extends Controller
      */
     public function index()
     {
-        $details = PengajuanDana::where('statusdisetujui', 3)->get();
-        return view('pengajuandana.d_pengajuan', compact('details'));
+        // $details = PengajuanDana::where('statusdisetujui', 3)->get();
+        // return view('pengajuandana.d_pengajuan', compact('details'));
+
+        $jmlPengajuan = VPengajuanDana::where('progres', 'direktur')
+                                      ->where('statusdisetujui', 3)
+                                      ->sum('total');
+
+        $details = VPengajuanDana::where('progres', 'direktur')
+                            ->where('statusdisetujui', 3)
+                            ->get();
+
+        return view('pengajuandana.d_pengajuan', compact('jmlPengajuan', 'details'));
     }
 
     /**
@@ -47,14 +58,28 @@ class ControllerPersetujuanPengajuanDirektur extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($nomor)
+    public function show($no)
     {
-        $no = $nomor;
-        $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
-        $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
-        $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
+        // $no = $nomor;
+        // $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
+        // $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
+        // $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
 
-        return view('pengajuandana.d_pengajuandetail', compact('no', 'namaPengaju', 'details'));
+        // return view('pengajuandana.d_pengajuandetail', compact('no', 'namaPengaju', 'details'));
+
+        $userId = PengajuanDana::select('user_id')
+                                ->where('nomor', $no)
+                                ->get();
+        $namaPengaju = User::select('name')
+                            ->where('id', $userId[0]->user_id)
+                            ->get();
+        $pengajuandana = PengajuanDana::where('nomor', $no)
+                                      ->get();
+        $details = PengajuanDanaDetail::where('nomor', $no)
+                                    ->where('statusditolak', 0)
+                                    ->get();
+
+        return view('pengajuandana.d_pengajuandetail', compact('no', 'namaPengaju', 'pengajuandana', 'details'));
     }
 
     /**
@@ -67,9 +92,9 @@ class ControllerPersetujuanPengajuanDirektur extends Controller
     {
         $cek = substr($nomor,0,1);
         $no = substr($nomor,1,8);
-        // return $no;
+        // return $cek;
         if($cek == 's') {
-            PengajuanDana::where('nomor', $no)->update(['progres' => 'direktur', 'statusdisetujui' => 4]);
+            PengajuanDana::where('nomor', $no)->update(['progres' => 'kasir', 'statusdisetujui' => 4]);
         } else {
             PengajuanDana::where('nomor', $no)->update(['statusdisetujui' => 0]);
         }

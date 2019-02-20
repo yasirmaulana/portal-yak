@@ -21,6 +21,12 @@
                                                 <span class="badge badge-pill badge-danger">{{$jmlPengajuan}}</span>
                                             @endif
                                         @break
+                                    @case('Daftar Pengajuan Dana')
+                                        @if($jmlPengajuan>0)
+                                            <span class="badge badge-pill badge-danger">{{$jmlPengajuan}}</span>
+                                        @endif
+                                        @break
+                                        
                                 @endswitch
                             </a>
                             <br>

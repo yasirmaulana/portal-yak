@@ -1,27 +1,28 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-direktur
     <p><h4>PENGAJUAN DANA</h4>
     <div class="table-responsive">
         <p><table class="table table-hover">
             <thead>
                 <tr>
+                    <th>Divisi</th>
                     <th>Tanggal Pengajuan</th>
-                    <th>Nomor</th>
+                    <th>Tujuan Pengajuan</th>
+                    <th>Nomor Pengajuan</th>
                     <th>Pembayaran</th>
-                    <th>Nama Bank</th>
-                    <th>No Rekening</th>
-                    <th>Atas Nama</th>
-                    <th>Email</th>
-                    <th>Action</th>
+                    <th>Total Pengajuan</th>
                 </tr>
             </thead>
             <tbody> 
                 @foreach($details as $detail)
                 <tr>
+                <td>{{$detail->divisi}}</td>
                     <td>{{$detail->created_at}}</td>
-                    <td>{{$detail->nomor}}</td>
+                    <td>{{$detail->tujuan}}</td>
+                    <td>
+                        <a href="{{route('persetujuanpengajuandirektur.show', $detail->nomor)}}">{{$detail->nomor}}</a>
+                    </td>
                     <td>
                         @if($detail->pembayaran == 't')
                             Transfer
@@ -29,13 +30,7 @@ direktur
                             Cash
                         @endif
                     </td>
-                    <td>{{$detail->bank}}</td>
-                    <td>{{$detail->nomor_rekening}}</td>
-                    <td>{{$detail->atas_nama}}</td>
-                    <td>{{$detail->email}}</td>
-                    <td>
-                        <a href="{{route('persetujuanpengajuandirektur.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
-                    </td>
+                    <td>Rp. {{number_format($detail->total)}}</td>
                 </tr>
                 @endforeach
             </tbody>

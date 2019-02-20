@@ -53,15 +53,15 @@ Route::resource('coa', 'ControllerCOA')->middleware(['auth', 'roleaccounting']);
 
 //     return $post;
 // });
-Route::get('/adddivisi', function () {
-    $post = new DivisiDetail;
-    $post->divisi = 'CRM';
-    $post->initial = 'CR';
-    $post->user_id = 1;
-    $post->save();
+// Route::get('/adddivisi', function () {
+//     $post = new DivisiDetail;
+//     $post->divisi = 'CRM';
+//     $post->initial = 'CR';
+//     $post->user_id = 1;
+//     $post->save();
 
-    return $post;
-});
+//     return $post;
+// });
 // Route::get('/addkodebudget', function () {
 //     $post= new KodeBudget;
 //     $post->kode_budget = '002';

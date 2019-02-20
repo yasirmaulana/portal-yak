@@ -60,13 +60,21 @@ class ControllerPersetujuanPengajuanDana extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($nomor) 
+    public function show($no) 
     {
-        $no = $nomor;
-        $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
-        $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
-        $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
-        return view('pengajuandana.m_pengajuandetail', compact('no', 'namaPengaju', 'details'));
+        $userId = PengajuanDana::select('user_id')
+                               ->where('nomor', $no)
+                               ->get();
+        $namaPengaju = User::select('name')
+                           ->where('id', $userId[0]->user_id)
+                           ->get();
+        $pengajuandana = PengajuanDana::where('nomor', $no)
+                                      ->get();
+        $details = PengajuanDanaDetail::where('nomor', $no)
+                                      ->where('statusditolak', 0)
+                                      ->get();
+
+        return view('pengajuandana.m_pengajuandetail', compact('no', 'namaPengaju', 'pengajuandana', 'details'));
     }
 
     /**
