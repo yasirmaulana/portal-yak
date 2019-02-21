@@ -17,7 +17,7 @@
                     <th>@Harga</th> 
                     <th>Total Harga</th>
                     <th>Realisasi</th>
-                    <th>Delta</th>
+                    <th>Pengembalian</th>
                 </tr>
             </thead>
             <tbody> 

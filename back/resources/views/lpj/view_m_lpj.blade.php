@@ -6,20 +6,28 @@
         <p><table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Tanggal Pengajuan</th>
-                    <th>Nomor</th>
+                    <th>Divisi</th>
+                    <th>Tgl Pengajuan</th>
+                    <th>Tgl Jatuh Tempo LPJ</th>
+                    <th>Tujuan Pengajuan</th>
+                    <th>Nomor Pengajuan</th>
                     <th>Pembayaran</th>
-                    <th>No Rekening</th>
-                    <th>Atas Nama</th>
-                    <th>Email</th>
-                    <th>Action</th>
+                    <th>Total Pengajuan</th> 
+                    <th>Total Realisasi</th>
+                    <th>Pengembalian</th>
+
                 </tr>
             </thead>
             <tbody> 
                 @foreach($details as $detail)
                 <tr>
+                    <td>{{$detail->divisi}}</td>
                     <td>{{$detail->created_at}}</td>
-                    <td>{{$detail->nomor}}</td>
+                    <td>{{$detail->jatuh_tempo_lpj}}</td>
+                    <td>{{$detail->tujuan}}</td>
+                    <td>
+                        <a href="{{route('mlpj.show', $detail->nomor)}}">{{$detail->nomor}}</a>
+                    </td>
                     <td>
                         @if($detail->pembayaran == 't')
                             Transfer
@@ -27,12 +35,13 @@
                             Cash
                         @endif
                     </td>
-                    <td>{{$detail->nomor_rekening}}</td>
-                    <td>{{$detail->atas_nama}}</td>
-                    <td>{{$detail->email}}</td>
-                    <td>
-                        <a href="{{route('mlpj.show', $detail->nomor)}}" class="btn btn-success">Detail</a>
-                    </td>
+                    <td>Rp. {{number_format($detail->total)}}</td>
+                    <td>Rp. {{number_format($detail->total_realisasi)}}</td>
+                    @if($detail->total_realisasi == 0)
+                    <td>Rp. {{number_format($detail->total_realisasi)}}</td>
+                    @else
+                    <td>Rp. {{number_format($detail->total-$detail->total_realisasi)}}</td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

@@ -8,6 +8,7 @@ use App\PengajuanDanaDetail;
 use App\User;
 use Auth;
 use App\DivisiDetail;
+use App\VPengajuanDana;
 
 class ControllerViewLPJM extends Controller
 {
@@ -16,10 +17,10 @@ class ControllerViewLPJM extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
-        $divisi = DivisiDetail::where('user_id', Auth::user()->id)->get();
-        $details = PengajuanDana::where('statusdisetujui', 5)
+        $divisi = DivisiDetail::select('divisi')->where('user_id', Auth::user()->id)->get();
+        $details = VPengajuanDana::where('statusdisetujui', 5)
                                 ->whereIn('divisi', $divisi)
                                 ->get();
         

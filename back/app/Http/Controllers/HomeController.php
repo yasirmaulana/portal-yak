@@ -78,3 +78,17 @@ class HomeController extends Controller
         return view('home', compact('user', 'menu', 'jmlPengajuan', 'jmlLpj'));
     }
 }
+
+// CREATE OR REPLACE VIEW `vpengajuandana` AS
+// SELECT `pengajuandana`.`created_at`, `pengajuandana`.`nomor`, `pengajuandana`.`user_id`, `pengajuandana`.`pembayaran`, `pengajuandana`.`bank`, `pengajuandana`.`nomor_rekening`, `pengajuandana`.`atas_nama`, `pengajuandana`.`email`, `pengajuandana`.`progres`, `pengajuandana`.`statusdisetujui`, `pengajuandana`.`statusopen`, `pengajuandana`.`divisi`, `pengajuandana`.`kode_budget`, `pengajuandana`.`jatuh_tempo_lpj`, `pengajuandana`.`tujuan`, `pengajuandana`.`kasir`, `pengajuandana`.`tgl_transfer`, `pengajuandana`.`catatan_accounting`, sum(`pengajuandanadetail`.`total`) as total, sum(`pengajuandanadetail`.`realisasi`) AS total_realisasi
+
+// FROM `pengajuandana`
+
+// LEFT JOIN `pengajuandanadetail`
+// ON `pengajuandanadetail`.`nomor` = `pengajuandana`.`nomor`
+
+// WHERE `pengajuandana`.`statusopen` = 'y'
+
+// GROUP BY `pengajuandana`.`created_at`, `pengajuandana`.`nomor`, `pengajuandana`.`user_id`, `pengajuandana`.`pembayaran`, `pengajuandana`.`bank`, `pengajuandana`.`nomor_rekening`, `pengajuandana`.`atas_nama`, `pengajuandana`.`email`, `pengajuandana`.`progres`, `pengajuandana`.`statusdisetujui`, `pengajuandana`.`statusopen`, `pengajuandana`.`divisi`, `pengajuandana`.`kode_budget`, `pengajuandana`.`jatuh_tempo_lpj`, `pengajuandana`.`tujuan`, `pengajuandana`.`kasir`, `pengajuandana`.`tgl_transfer`, `pengajuandana`.`catatan_accounting`
+
+// ORDER BY `pengajuandana`.`divisi`

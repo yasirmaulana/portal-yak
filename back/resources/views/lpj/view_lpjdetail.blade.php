@@ -14,7 +14,7 @@
                     <th>qty</th>
                     <th>@Harga</th> 
                     <th>Total Harga</th>
-                    <th>Status</th>
+                    <th>Realisasi</th>
                 </tr>
             </thead>
             <tbody> 
@@ -24,13 +24,8 @@
                     <td>{{ number_format($detail->satuan) }}</td>
                     <td>{{ number_format($detail->harga) }}</td>
                     <td>{{ number_format($detail->satuan * $detail->harga) }}</td>
-                    <td>
-                        @if($detail->statusditolak == 1)
-                            <button disabled class="btn btn-danger">Ditolak</button>
-                        @else
-                            <button disabled class="btn btn-info">Disetujui</button>
-                        @endif
-                    </td>
+                    <td>{{ number_format($detail->realisasi) }}</td>
+                    
                 </tr>
                 @endforeach
             </tbody>

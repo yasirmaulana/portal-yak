@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\User;
+use App\VPengajuanDana;
 
 class ControllerViewLPJ extends Controller
 {
@@ -16,8 +17,8 @@ class ControllerViewLPJ extends Controller
      */
     public function index()
     {
-        $details = PengajuanDana::where('statusdisetujui', 5)->get();
-        
+        $details = VPengajuanDana::where('statusdisetujui', 5)->get();
+
         return view('lpj.view_lpj', compact('details'));
     }
 

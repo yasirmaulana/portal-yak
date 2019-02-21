@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\PengajuanDana;
 use App\PengajuanDanaDetail;
 use App\User;
+use App\VPengajuanDana;
 
 class ControllerKasirLPJ extends Controller
 {
@@ -13,12 +14,15 @@ class ControllerKasirLPJ extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function index()
     {
-        $details = PengajuanDana::where('statusdisetujui', 5)->get();
-        
+        $details = VPengajuanDana::where('statusdisetujui', 5)->get();
+
         return view('lpj.k_lpj', compact('details'));
+        // $details = PengajuanDana::where('statusdisetujui', 5)->get();
+        
+        // return view('lpj.k_lpj', compact('details'));
     }
 
     /**
