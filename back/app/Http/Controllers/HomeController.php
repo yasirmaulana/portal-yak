@@ -36,33 +36,45 @@ class HomeController extends Controller
         if(Auth::user()->role == 'standar') {
             $jmlPengajuan = PengajuanDana::where('user_id', Auth::user()->id)
                                          ->whereIn('statusdisetujui', [1,2,3,4])
-                                         ->count(); 
+                                         ->count();
+            $jmlLpj = PengajuanDana::where('user_id', Auth::user()->id)
+                                    ->where('statusdisetujui', 5)
+                                    ->count();
         }
         elseif(Auth::user()->role == 'manager') {
             $jmlPengajuan = PengajuanDana::where('progres', Auth::user()->role)
                                          ->whereIn('divisi', $div)
                                          ->count(); 
+            $jmlLpj = PengajuanDana::where('statusdisetujui', 5)
+                                    ->whereIn('divisi', $div)
+                                    ->count(); 
         }
         elseif (Auth::user()->role == 'accounting') {
             $jmlPengajuan = PengajuanDana::where('progres', Auth::user()->role)
                                         ->where('statusdisetujui', 2)
                                         ->count();
+            $jmlLpj = PengajuanDana::where('statusdisetujui', 5)
+                                    ->count(); 
         }
         elseif (Auth::user()->role == 'direktur') {
             $jmlPengajuan = PengajuanDana::where('progres', Auth::user()->role)
                                         ->where('statusdisetujui', 3)
                                         ->count();
+            $jmlLpj = PengajuanDana::where('statusdisetujui', 5)
+                                    ->count();
         }
         elseif (Auth::user()->role == 'kasir') {
             $jmlPengajuan = PengajuanDana::where('progres', Auth::user()->role)
                                          ->where('statusdisetujui', 4)
                                          ->count();
+            $jmlLpj = PengajuanDana::where('statusdisetujui', 5)
+                                    ->count();
         }
         else {
             $jmlPengajuan = 0;
         }
 
         // return Auth::user();
-        return view('home', compact('user', 'menu', 'jmlPengajuan'));
+        return view('home', compact('user', 'menu', 'jmlPengajuan', 'jmlLpj'));
     }
 }

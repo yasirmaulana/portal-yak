@@ -27,6 +27,7 @@ Route::resource('kasircash', 'ControllerKasirCash')->middleware(['auth', 'roleka
 Route::resource('kasirtransfer', 'ControllerKasirTransfer')->middleware(['auth', 'rolekasirtransfer']);
 
 Route::resource('lpj', 'ControllerLPJ')->middleware(['auth', 'rolestandar']);
+Route::resource('lpjr', 'ControllerLPJRealisasi')->middleware(['auth', 'rolestandar']);
 Route::resource('mlpj', 'ControllerViewLPJM')->middleware(['auth', 'rolemanager']);
 Route::resource('viewlpj', 'ControllerViewLPJ')->middleware(['auth', 'roleviewlpj']);
 Route::resource('klpj', 'ControllerKasirLPJ')->middleware(['auth', 'rolekasir']);

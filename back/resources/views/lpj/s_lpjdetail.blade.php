@@ -3,13 +3,36 @@
 <div class="container">
     <h3>Detail LPJ</h3><p>
     <b>Nomor Pengajuan : {{$no}}</b><p>
-    <!-- <a href="" class="btn btn-success">Lapor LPJ</a><p></p> -->
-    <a href="{{route('lpj.index')}}">Kembali ke list</a><p>
+    <a href="{{route('lpj.index')}}">> Kembali ke list</a><p>
     
     <div class="table-responsive">
+        <!-- TAMBAH DETAIL REALISASI -->
+        <div>
+            <a href="" data-toggle="modal" data-target="#myModalTambah">+ Tambah detail</a>
+            <div class="modal fade" id="myModalTambah" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form action="{{route('lpj.store')}}" method="post">
+                                @csrf
+                                <input type="text" class="form-control" name="nomor" placeholder="nomor" value="{{$no}}" style="border: 0;background: none;">
+                                <p><input type="hidden" class="form-control" name="user_id" placeholder="user_id" value="{{Auth::user()->id}}">
+                                <p><input type="text" class="form-control" name="item" placeholder="item">
+                                <p><input type="number" class="form-control" name="satuan" placeholder="satuan (tulis tanpa titik)">
+                                <p><input type="number" class="form-control" name="harga" placeholder="harga (tulis tanpa titik)">
+                                <p><button type="submit" class="btn btn-success">Tambah Detail</button>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>Item</th> 
                     <th>qty</th>
                     <th>@Harga</th> 
@@ -21,31 +44,13 @@
             <tbody> 
                 @foreach( $details as $detail )
                 <tr>
+                    <td>{{ $detail->id }}</td>
                     <td>{{ $detail->item }}</td>
                     <td>{{ number_format($detail->satuan) }}</td>
                     <td>{{ number_format($detail->harga) }}</td>
                     <td>{{ number_format($detail->satuan * $detail->harga) }}</td>
                     <td>{{ number_format($detail->realisasi) }}</td>
-                    <td>
-                        <a href="" class="btn btn-info" data-toggle="modal" data-target="#myModal">Input Realisasi</a>
-                        <!-- Modal -->
-                        <div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <form action="{{route('lpj.update', $detail->id)}}" method="post">
-                                            @csrf
-                                            @method('PUT')
-                                            <p><input type="hidden" name="nomor" value="{{$detail->nomor}}">
-                                            <p><input disabled type="text" class="form-control" name="item" value="{{$detail->item}}">
-                                            <p><input type="number" class="form-control" name="realisasi" placeholder="realisasi (tulis tanpa titik)">
-                                            <p><button type="submit" class="btn btn-success">Isi Realisasi</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>    
+                    <td><a href="{{route('lpjr.show', $detail->id)}}" class="btn btn-info">Input Realisasi</a></td>
                 </tr>
                 @endforeach
             </tbody>

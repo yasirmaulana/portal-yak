@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PengajuanDana;
 use App\PengajuanDanaDetail;
-use App\User;
-use Auth;
-use App\DivisiDetail;
 
-class ControllerViewLPJM extends Controller
+class ControllerLPJRealisasi extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +14,7 @@ class ControllerViewLPJM extends Controller
      */
     public function index()
     {
-        $divisi = DivisiDetail::where('user_id', Auth::user()->id)->get();
-        $details = PengajuanDana::where('statusdisetujui', 5)
-                                ->whereIn('divisi', $divisi)
-                                ->get();
-        
-        // return $divisi;
-        return view('lpj.view_m_lpj', compact('details'));
+        //
     }
 
     /**
@@ -54,14 +44,11 @@ class ControllerViewLPJM extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($nomor)
+    public function show($id)
     {
-        $no = $nomor;
-        $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
-        $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
-        $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
+        $detail = PengajuanDanaDetail::where('id', $id)->get();
 
-        return view('lpj.view_m_lpjdetail', compact('no', 'namaPengaju', 'details'));
+        return view('lpj.s_lpjrealisasi', compact('detail'));
     }
 
     /**
@@ -84,7 +71,12 @@ class ControllerViewLPJM extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        PengajuanDanaDetail::where('id', $id)
+                            ->update([
+                                'realisasi' => $request->realisasi 
+                            ]);
+
+        return redirect()->route('lpj.show', $request->nomor);
     }
 
     /**

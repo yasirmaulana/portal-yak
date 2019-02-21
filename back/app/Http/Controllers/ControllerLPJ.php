@@ -42,7 +42,21 @@ class ControllerLPJ extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tambahDetail = new PengajuanDanaDetail;
+
+        $tambahDetail->nomor = $request->nomor;
+        $tambahDetail->user_id = $request->user_id;
+        $tambahDetail->item = $request->item;
+        $tambahDetail->satuan = $request->satuan;
+        $tambahDetail->harga = $request->harga;
+        $tambahDetail->statusditolak = 0;
+        $tambahDetail->realisasi = $request->satuan * $request->harga;
+        $tambahDetail->total = $request->satuan * $request->harga;
+        $tambahDetail->status_tambah_realisasi = 'y';
+
+        $tambahDetail->save();
+
+        return redirect()->route('lpj.show', $request->nomor);
     }
 
     /**
@@ -55,7 +69,7 @@ class ControllerLPJ extends Controller
     {
         $no = $nomor;
         $details = PengajuanDanaDetail::where('nomor', $nomor)
-                        ->where('statusditolak', 0)->get();
+                                        ->where('statusditolak', 0)->get();
         
         return view('lpj.s_lpjdetail', compact('no', 'details'));
     }

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+test
 <div class="container">
     <p><h4>LAPORAN PERTANGGUNG JAWABAN</h4>
     <div class="table-responsive">
