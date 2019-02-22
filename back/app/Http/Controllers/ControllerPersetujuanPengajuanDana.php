@@ -87,38 +87,34 @@ class ControllerPersetujuanPengajuanDana extends Controller
     {
         $cek = substr($nomor,0,1);
         $no = substr($nomor,1,9);
-        $userid = PengajuanDana::select('user_id')->where('nomor', $no)->get();
-        $userid = $userid[0]->user_id;
-        $noWAPengaju = Pengguna::select('nomor_wa')->where('id', $userid)->get();
-        $noWAPengaju = $noWAPengaju[0]->nomor_wa;
-        $noWAAccounting = Pengguna::select('nomor_wa')->where('role', 'accounting')->get();
-        $noWAAccounting = $noWAAccounting[0]->nomor_wa;
+        $userid0 = PengajuanDana::select('user_id')->where('nomor', $no)->get();
+        $userid = $userid0[0]->user_id;
+        $noWAPengaju0 = Pengguna::select('nomor_wa')->where('id', $userid)->get();
+        $noWAPengaju = $noWAPengaju0[0]->nomor_wa;
+        $noWAAccounting0 = Pengguna::select('nomor_wa')->where('role', 'accounting')->get();
+        $noWAAccounting = $noWAAccounting0[0]->nomor_wa;
         $tglPengajuan = VPengajuanDana::select('created_at')->where('nomor', $no)->get();
         $totalPengajuan = VPengajuanDana::select('total')->where('nomor', $no)->get();
 
-        // return $no;
         if($cek == 's') {
             PengajuanDana::where('nomor', $no)->update(['progres' => 'accounting', 'statusdisetujui' => 2]);
 
-            // SEND WA TO ACCOUNTING
             $pesanKePengaju = '*PENGAJUAN DANA (' . $no . ')*\r\n\r\n' .
             'Pengajuan anda tertanggal ' . $tglPengajuan[0]->created_at . '  sebesar Rp. ' . number_format($totalPengajuan[0]->total) . ' telah mendapat persetujuan oleh Atasan dan sedang proses dibagian Keuangan';
-            // return $pesanKePengaju;
-
-            $pesanKeAccounting = '*PENGAJUAN DANA (' . $no . ') - Accounting*\r\n\r\n'.
-            'Ada sebuah pengajuan dana yang harus di proses...';
-
-            $this->sendWA($noWAPengaju,$pesanKePengaju);
+            
+            $pesanKeAccounting = '*PENGAJUAN DANA (' . $no . ') - Keuangan*\r\n\r\n'.
+            'Ada sebuah pengajuan dana sebesar Rp. ' . number_format($totalPengajuan[0]->total) . ' yang harus di proses...';
+            
             $this->sendWA($noWAAccounting,$pesanKeAccounting);
+            $this->sendWA($noWAPengaju,$pesanKePengaju);
 
         } else {
             PengajuanDana::where('nomor', $no)->update(['statusdisetujui' => 0]);
 
-            $pesanKePengaju = '*PENGAJUAN DANA*\r\n\r\n'.
-            'Pengajuan anda telah ditolak oleh manager.';
+            $pesanKePengaju = '*PENGAJUAN DANA (' . $no . ')*\r\n\r\n'.
+            'Pengajuan anda telah ditolak oleh atasan.';
 
             $this->sendWA($noWAPengaju,$pesanKePengaju);
-
         }
 
         return redirect()->route('persetujuanpengajuandana.index');

@@ -8,6 +8,7 @@ use App\PengajuanDanaDetail;
 use App\User;
 use App\VPengajuanDana;
 use App\KodeBudget;
+use App\Pengguna;
 use Auth;
 
 class ControllerListKasir extends Controller
@@ -19,10 +20,6 @@ class ControllerListKasir extends Controller
      */
     public function index() 
     {
-        // $details = PengajuanDana::where('statusdisetujui', 4)->get();
-        
-        // return view('pengajuandana.list_pengajuan', compact('details'));
-
         $jmlPengajuan = VPengajuanDana::where('progres', 'kasir')
                                     ->where('statusdisetujui', 4)
                                     ->sum('total');
@@ -63,14 +60,6 @@ class ControllerListKasir extends Controller
      */
     public function show($no)
     {
-        // $no = $nomor;
-        // $userId = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
-        // $namaPengaju = User::select('name')->where('id', $userId[0]->user_id)->get();
-        // $details = PengajuanDanaDetail::where('nomor',$no)->where('statusditolak', 0)->get();
-
-        // return view('pengajuandana.list_pengajuandetail', compact('no', 'namaPengaju', 'details'));
-
-
         $userId = PengajuanDana::select('user_id')
                                ->where('nomor', $no)
                                ->get();
@@ -114,7 +103,53 @@ class ControllerListKasir extends Controller
                 'kasir' => Auth::user()->name
             ]);
 
+        $userid0 = PengajuanDana::select('user_id')->where('nomor', $no)->get();
+        $userid = $userid0[0]->user_id;
+        $noWAPengaju0 = Pengguna::select('nomor_wa')->where('id', $userid)->get();
+        $noWAPengaju = $noWAPengaju0[0]->nomor_wa;
+        $tglPengajuan = VPengajuanDana::select('created_at')->where('nomor', $no)->get();
+        $totalPengajuan = VPengajuanDana::select('total')->where('nomor', $no)->get();
+        
+        $pesanKePengaju = '*PENGAJUAN DANA (' . $no . ')*\r\n\r\n' .
+        'Pengajuan anda tertanggal ' . $tglPengajuan[0]->created_at . '  sebesar Rp. ' . number_format($totalPengajuan[0]->total) . ' telah diproses dibagian Accounting\r\n\r\n' .
+        'mohon diselesaikan Laporan Pertanggung Jawaban sebelum jatuh tempo tanggal' . $request->jtLPJ;
+            
+        $this->sendWA($noWAPengaju,$pesanKePengaju);
+
         return redirect()->route('listkasir.index');
+    }
+
+    public function sendWA($nomorWA,$pesan)
+    {
+        // $number="6281586245143";
+        // $msg="test send wa from route with image, setting .env";
+        $img="http://www.wegeek.net/wp-content/uploads/2016/08/Aggiornamento-WhatsApp-Windows-Phone.jpg";
+
+        $number=$nomorWA;
+        $msg=$pesan;
+        $JSON_DATA ='{
+            "token": "'. env('PICKY_TOKEN') .'",
+            "priority ":0,
+            "application":"1",
+            "sleep":0,
+            "globalmessage":"'.$msg.'",
+            "globalmedia":"",
+            "data":[
+                {"number":"'.$number.'","message":""}
+            ]
+        }';
+        //--CURL FUNCTION TO CALL THE API--
+        $url = env('PICKY_URL');
+        $ch = curl_init($url);                                                                      
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $JSON_DATA);                                                                  
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+        'Content-Type: application/json', 'Content-Length: ' . strlen($JSON_DATA))); 		                                                                                                                   
+        $result = curl_exec($ch);
+    
+        // echo $number . $msg;
+
     }
 
     /**

@@ -85,14 +85,13 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
     {
         PengajuanDana::where('nomor', $nomor)->update(['statusdisetujui' => 0]);
         
-        $userid = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
-        $userid = $userid[0]->user_id;
-        $noWAPengaju = Pengguna::select('nomor_wa')->where('id', $userid)->get();
-        $noWAPengaju = $noWAPengaju[0]->nomor_wa;
+        $userid0 = PengajuanDana::select('user_id')->where('nomor', $nomor)->get();
+        $userid = $userid0[0]->user_id;
+        $noWAPengaju0 = Pengguna::select('nomor_wa')->where('id', $userid)->get();
+        $noWAPengaju = $noWAPengaju0[0]->nomor_wa;
             
-        // SEND WA TO PENGAJU
-        $pesanKePengaju = '*PENGAJUAN DANA*\r\n\r\n'.
-        'Pengajuan anda telah ditolak oleh bagian Accounting.';
+        $pesanKePengaju = '*PENGAJUAN DANA (' . $nomor . ')*\r\n\r\n'.
+        'Pengajuan anda telah ditolak oleh bagian Keuangan.';
 
         $this->sendWA($noWAPengaju,$pesanKePengaju);
 
@@ -121,22 +120,23 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
             'catatan_accounting' => $request->catatan
         ]);
         
-        $userid = PengajuanDana::select('user_id')->where('nomor', $no)->get();
-        $userid = $userid[0]->user_id;
-        $noWAPengaju = Pengguna::select('nomor_wa')->where('id', $userid)->get();
-        $noWAPengaju = $noWAPengaju[0]->nomor_wa;
-        $noWADirektur = Pengguna::select('nomor_wa')->where('role', 'direktur')->get();
-        $noWADirektur = $noWADirektur[0]->nomor_wa;
-            
-        // SEND WA TO ACCOUNTING
-        $pesanKePengaju = '*PENGAJUAN DANA*\r\n\r\n'.
-        'Pengajuan anda telah disetujuin oleh bagian _Accounting_ dan menunggu proses selanjutnya di Direktur.';
+        $userid0 = PengajuanDana::select('user_id')->where('nomor', $no)->get();
+        $userid = $userid0[0]->user_id;
+        $noWAPengaju0 = Pengguna::select('nomor_wa')->where('id', $userid)->get();
+        $noWAPengaju = $noWAPengaju0[0]->nomor_wa;
+        $noWADirektur0 = Pengguna::select('nomor_wa')->where('role', 'direktur')->get();
+        $noWADirektur = $noWADirektur0[0]->nomor_wa;
+        $tglPengajuan = VPengajuanDana::select('created_at')->where('nomor', $no)->get();
+        $totalPengajuan = VPengajuanDana::select('total')->where('nomor', $no)->get();
 
-        $pesanKeDirektur = '*PENGAJUAN DANA*\r\n\r\n'.
-        'Ada sebuah pengajuan dana yang harus di proses...';
-
-        $this->sendWA($noWAPengaju,$pesanKePengaju);
+        $pesanKePengaju = '*PENGAJUAN DANA (' . $no . ')*\r\n\r\n'.
+        'Pengajuan anda tertanggal ' . $tglPengajuan[0]->created_at . '  sebesar Rp. ' . number_format($totalPengajuan[0]->total) . ' telah mendapat persetujuan oleh Bagian Keuangan dan sedang proses di Direktur';
+        
+        $pesanKeDirektur = '*PENGAJUAN DANA (' . $no . ') - Direktur*\r\n\r\n'.
+        'Ada sebuah pengajuan dana sebesar Rp. ' . number_format($totalPengajuan[0]->total) . ' yang harus di proses...';
+        
         $this->sendWA($noWADirektur,$pesanKeDirektur);
+        $this->sendWA($noWAPengaju,$pesanKePengaju);
 
         return redirect()->route('persetujuanpengajuanaccounting.index');
     }

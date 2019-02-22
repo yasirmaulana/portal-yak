@@ -19,7 +19,7 @@
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
-                <tr>
+                <tr> 
                     <th>Item</th>
                     <th>qty</th>
                     <th>@Harga</th>
