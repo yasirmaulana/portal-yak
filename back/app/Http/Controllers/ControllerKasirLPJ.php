@@ -70,9 +70,9 @@ class ControllerKasirLPJ extends Controller
      */
     public function edit($nomor)
     {
-        PengajuanDana::where('nomor', $nomor)->update(['progres' => 'close', 'statusdisetujui' => 6, 'statusopen' => 'n']);
-
-        return redirect()->route('klpj.index');
+        // PengajuanDana::where('nomor', $nomor)->update(['progres' => 'close', 'statusdisetujui' => 6, 'statusopen' => 'n']);
+        // return redirect()->route('klpj.index');
+        // return 'testststss';
     }
 
     /**
@@ -82,9 +82,19 @@ class ControllerKasirLPJ extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $nomor)
     {
-        //
+        PengajuanDana::where('nomor', $nomor)
+                    ->update([
+                        'progres' => 'close', 
+                        'statusdisetujui' => 6, 
+                        'statusopen' => 'n',
+                        'status_bukti' => $request->stBukti,
+                        'jenis_bukti' => $request->jnBukti,
+                        'catatan_accounting' => $request->catAccounting
+                    ]);
+
+        return redirect()->route('klpj.index');
     }
 
     /**

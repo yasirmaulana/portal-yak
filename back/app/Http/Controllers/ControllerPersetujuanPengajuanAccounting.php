@@ -117,7 +117,7 @@ class ControllerPersetujuanPengajuanAccounting extends Controller
             'statusdisetujui' => 3,
             'kode_budget' => $request->kodeBudget,
             'tgl_transfer' => $request->tglTransfer,
-            'catatan_accounting' => $request->catatan
+            'catatan_keuangan' => $request->catatan
         ]);
         
         $userid0 = PengajuanDana::select('user_id')->where('nomor', $no)->get();

@@ -112,7 +112,7 @@ class ControllerListKasir extends Controller
         
         $pesanKePengaju = '*PENGAJUAN DANA (' . $no . ')*\r\n\r\n' .
         'Pengajuan anda tertanggal ' . $tglPengajuan[0]->created_at . '  sebesar Rp. ' . number_format($totalPengajuan[0]->total) . ' telah diproses dibagian Accounting\r\n\r\n' .
-        'mohon diselesaikan Laporan Pertanggung Jawaban sebelum jatuh tempo tanggal' . $request->jtLPJ;
+        'mohon diselesaikan Laporan Pertanggung Jawaban sebelum jatuh tempo tanggal ' . $request->jtLPJ;
             
         $this->sendWA($noWAPengaju,$pesanKePengaju);
 
