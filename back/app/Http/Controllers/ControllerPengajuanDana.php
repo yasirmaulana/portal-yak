@@ -147,7 +147,7 @@ class ControllerPengajuanDana extends Controller
             $post->progres = $request->progres;
             $post->statusdisetujui = $request->statusdisetujui;
             $post->statusopen = $request->statusopen;
-            $post->divisi = $divisi[0]->initial;
+            $post->divisi = $divisi[0]->divisi;
             $post->save();
     
             
