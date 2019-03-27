@@ -18,26 +18,7 @@
                 </tr>
             </thead>
             <tbody> 
-                @foreach($details as $detail)
-                <tr>
-                    <td>{{$detail->created_at}}</td>
-                    <td>{{$detail->nomor}}</td>
-                    <td>
-                        @if($detail->pembayaran == 't')
-                            Transfer
-                        @else
-                            Cash
-                        @endif
-                    </td>
-                    <td>{{$detail->bank}}</td>
-                    <td>{{$detail->nomor_rekening}}</td>
-                    <td>{{$detail->atas_nama}}</td>
-                    <td>{{$detail->email}}</td>
-                    <td>
-                        <a href="" class="btn btn-success">Detail</a>
-                    </td>
-                </tr>
-                @endforeach
+               
             </tbody>
         </table>
     </div>

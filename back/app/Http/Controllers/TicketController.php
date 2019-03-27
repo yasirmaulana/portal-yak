@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PengajuanDana;
+use Auth;
+use App\Ticket;
 
-class ControllerKasirReport extends Controller
+class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,12 +15,9 @@ class ControllerKasirReport extends Controller
      */
     public function index()
     {
-        // $details = PengajuanDana::all()
-        //                         ->with('pengajuandetail')
-        //                         ->first();
+        $tickets = Ticket::all();
 
-        // return 'test';
-        return view('laporan.pattycash');
+        return view('tickets.index', compact('tickets'));
     }
 
     /**

@@ -38,6 +38,9 @@ Route::resource('pattycash', 'ControllerKasirReport')->middleware(['auth', 'role
 
 Route::resource('coa', 'ControllerCOA')->middleware(['auth', 'roleaccounting']);
 
+// ROUTE TICKETS
+Route::resource('ticket', 'TicketController')->middleware(['auth']);
+
 // Route::get('/addSeq', function () {
 //     $post = new Sequence;
 //     $post->no = 0;

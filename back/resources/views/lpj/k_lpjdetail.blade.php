@@ -41,14 +41,13 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <form action="{{route('klpj.update', $no)}}" method="post">
-                        @csrf
+                        @csrf 
                         @method('PUT')
                         <input type="text" class="form-control" name="nomor" placeholder="nomor" value="{{$no}}" style="border: 0;background: none;">
                         <div class="form-group">
                             <select class="form-control" name="stBukti" id="sel1">
-                                <option>Status Bukti</option>
+                                <option>--Status Bukti--</option>
                                 <option>Sudah</option>
-                                <option>Belum</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -57,7 +56,8 @@
                         <div class="form-group">
                             <textarea class="form-control" rows="5" id="comment" name="catAccounting" placeholder="Catatan"></textarea>
                         </div>
-                        <p><button type="submit" class="btn btn-success">LPJ Close</button>
+                        <button type="submit" class="btn btn-success">LPJ Close</button>
+                        <a class="btn btn-warning" data-dismiss="modal">Cancel</a>
                     </form>
                     </div>
                 </div>
