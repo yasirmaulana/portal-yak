@@ -4,7 +4,6 @@
 
 <div class="container">
     
-    {{$tickets}}
     <h4>Daftar Antrian Problem IT </h4>    
     <!-- FORMULIR PENGAJUAN DANA DETAIL -->
     <!-- <div class="col-md-8"> -->
@@ -17,12 +16,17 @@
                     <div class="modal-body">
                         <form action="{{route('pengajuandetail.store')}}" method="post">
                             @csrf
-                            <input type="text" class="form-control" name="nomor" placeholder="nomor" value="" style="border: 0;background: none;">
+                            <h5>Formulir Buat Tiket</h5>
                             <p><input type="hidden" class="form-control" name="user_id" placeholder="user_id" value="{{Auth::user()->id}}">
-                            <p><input type="text" class="form-control" name="item" placeholder="item">
-                            <p><input type="number" class="form-control" name="satuan" placeholder="satuan (tulis tanpa titik)">
-                            <p><input type="number" class="form-control" name="harga" placeholder="harga (tulis tanpa titik)">
-                            <p><button type="submit" class="btn btn-success">Tambah Detail</button>
+                            <p><select class="form-control" id="sel1" name="jenis">
+                                    <option >Jenis</option>
+                                    <option>Hardware</option>
+                                    <option>Software</option>
+                                    <option>Network</option>
+                                </select>
+                            <p><input type="text" class="form-control" name="subjek" placeholder="subjek">
+                            <p><textarea class="form-control" rows="5" name="deskripsi" placeholder="deskripsi"></textarea>
+                            <p><button type="submit" class="btn btn-success">Buat Tiket</button>
                         </form>
                         </div>
                     </div>

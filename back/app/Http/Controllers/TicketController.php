@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Ticket;
+use User;
 
 class TicketController extends Controller
 {
@@ -16,6 +17,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::all();
+        // $user = Auth::user();
 
         return view('tickets.index', compact('tickets'));
     }
@@ -29,7 +31,7 @@ class TicketController extends Controller
     {
         //
     }
-
+ 
     /**
      * Store a newly created resource in storage.
      *
