@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Ticket;
+use App\vtickets;
 use User;
 
 class TicketController extends Controller
@@ -16,8 +17,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::all();
-        // $user = Auth::user();
+        $tickets = vtickets::all();
 
         return view('tickets.index', compact('tickets'));
     }
@@ -40,7 +40,15 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Ticket;
+        $post->user_id = $request->user_id;
+        $post->jenis = $request->jenis;
+        $post->subjek = $request->subjek;
+        $post->deskripsi = $request->deskripsi;
+        $post->save();
+
+        return redirect()->route('ticket.index');
+
     }
 
     /**

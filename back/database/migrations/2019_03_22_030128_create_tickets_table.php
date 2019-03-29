@@ -37,3 +37,24 @@ class CreateTicketsTable extends Migration
         Schema::dropIfExists('tickets');
     }
 }
+
+// CREATE OR REPLACE VIEW vtickets AS
+// SELECT 
+// 	`tickets`.`id`,
+//     `tickets`.`created_at`,
+//     `users`.`name`,
+//     `divisi_detail`.`divisi`,
+//     `tickets`.`jenis`,
+//     `tickets`.`subjek`,
+//     `tickets`.`deskripsi`,
+//     `tickets`.`penanganan`,
+//     `tickets`.`status`,
+//     `tickets`.`estimasi_selesai`,
+//     `tickets`.`user_id`
+// FROM `tickets`
+
+// LEFT JOIN `users`
+// ON `users`.`id` = `tickets`.`user_id`
+
+// LEFT JOIN `divisi_detail`
+// ON `divisi_detail`.`user_id` = `tickets`.`user_id`
